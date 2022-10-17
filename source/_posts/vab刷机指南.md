@@ -1,7 +1,6 @@
 ---
 title: vab刷机指南
 date: 2022-10-16 17:35:54
-tags:刷机
 ---
 # vab_devices_flash-guide
 该教程适用于大多数vab分区设备(比如红米K40) 刷机请备好电脑哦
