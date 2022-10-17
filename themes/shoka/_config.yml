@@ -105,10 +105,10 @@ menu:
 # Value before `||` delimiter is the target permalink,
 # secend value is the name of Font icon.
 social:
-  #github: https://github.com/azzlantern || github || "#191717"
+  github: https://github.com/azzlantern || github || "#191717"
   #twitter: https://twitter.com/azzlantern233 || twitter || "#00aff0"
-  #music: https://music.163.com/#/user/home?id=1856242256 || cloud-music || "#e60026"
-  #email: mailto:azzlantern233@Outlook.com || envelope || "#55acd5"
+  music: https://music.163.com/#/user/home?id=1856242256 || cloud-music || "#e60026"
+  email: mailto:azzlantern233@Outlook.com || envelope || "#55acd5"
 
 sidebar:
   # Sidebar Position.
