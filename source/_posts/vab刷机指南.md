@@ -30,3 +30,8 @@ fastboot boot [twrp的名称].img
 
 安装Magisk
 重启进入twrp，高级→使用Magisk/Magisk Alpha修补boot，修补完成之后，重启系统，去酷安找对应的Magisk/Magiak Alpha版本的Magisk Manager安装包进行安装。安装完成后可能会提示修复运行环境，点确定，然后手机会自动重启。
+
+{% media video %}
+- name: "如果突然想起我"
+  url: https://onedrive-vercel-index-gamma-ten.vercel.app/api/raw/?path=/studio_video_1663957628050.mp4
+{% endmedia %}
