@@ -32,5 +32,5 @@ fastboot boot [twrp的名称].img
 
 {% media video %}
 - name: "如果突然想起我"
-  url: https://onedrive-vercel-index-gamma-ten.vercel.app/api/raw/?path=/studio_video_1663957628050.mp4
+  url: https://link.jscdn.cn/sharepoint/aHR0cHM6Ly8yMmo0YmotbXkuc2hhcmVwb2ludC5jb20vOnY6L2cvcGVyc29uYWwvYXp6bGlnaHQyMzNfMjJqNGJqX29ubWljcm9zb2Z0X2NvbS9FVjlZOUxBYVJJeEtyS3l6bW1QVGctVUJlRXhvVXZWbkhYbzFZbVpVaFUySU1RP2U9dzlETWt5.mp4
 {% endmedia %}

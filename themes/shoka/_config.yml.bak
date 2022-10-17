@@ -105,10 +105,10 @@ menu:
 # Value before `||` delimiter is the target permalink,
 # secend value is the name of Font icon.
 social:
-  #github: https://github.com/azzlantern || github || "#191717"
+  github: https://github.com/azzlantern || github || "#191717"
   #twitter: https://twitter.com/azzlantern233 || twitter || "#00aff0"
-  #music: https://music.163.com/#/user/home?id=1856242256 || cloud-music || "#e60026"
-  #email: mailto:azzlantern233@Outlook.com || envelope || "#55acd5"
+  music: https://music.163.com/#/user/home?id=1856242256 || cloud-music || "#e60026"
+  email: mailto:azzlantern233@Outlook.com || envelope || "#55acd5"
 
 sidebar:
   # Sidebar Position.
@@ -174,8 +174,8 @@ creative_commons:
 # Valine
 # For more information: https://github.com/amehime/MiniValine
 valine:
-  appId: #Your_appId
-  appKey: #Your_appkey
+  appId: Ze3zYucImKpRBFPaSL4vIoiW-gzGzoHsz
+  appKey: 4MT7YsOQxTJRiaN78TYhuJEo
   placeholder: ヽ(○´∀`)ﾉ♪ # Comment box placeholder
   avatar: mp # Gravatar style : mp, identicon, monsterid, wavatar, robohash, retro
   pageSize: 10 # Pagination size
@@ -209,7 +209,7 @@ audio:
      list:
       - https://music.163.com/#/playlist?id=7609872490
    - title: 列表2
-  #   list:
+     list:
       - https://music.163.com/#/playlist?id=7669816966
 
 # random image api
