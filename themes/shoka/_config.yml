@@ -205,10 +205,10 @@ valine:
 
 # bgm
 audio:
-   - title: 列表1
+   - title: 随便
      list:
       - https://music.163.com/#/playlist?id=7609872490
-   - title: 列表2
+   - title: 鸟
      list:
       - https://music.163.com/#/playlist?id=7669816966
 
