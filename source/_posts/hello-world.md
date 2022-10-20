@@ -109,11 +109,6 @@ More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
 {% endmedia %}
 
 
-
-# 本文作者： Ruri Shimotsuki @優萌初華
-# 本文链接： https://shoka.lostyu.me/computer-science/note/theme-shoka-doc/special/
-# 版权声明： 本站所有文章除特别声明外，均采用 (CC)BY-NC-SA 许可协议。转载请注明出处！
-
 {% links %}
 - site: 咕咕咕
   owner: 咕
