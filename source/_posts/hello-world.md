@@ -107,3 +107,18 @@ More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
   url: "https://link.jscdn.cn/sharepoint/aHR0cHM6Ly8yMmo0YmotbXkuc2hhcmVwb2ludC5jb20vOnU6L2cvcGVyc29uYWwvYXp6bGlnaHQyMzNfMjJqNGJqX29ubWljcm9zb2Z0X2NvbS9FZlpmZVlXY1JZUk5pbkdaNGp4TGZKNEI5WEp4cWxHVHEzTDEyZlI4XzZOWkNnP2U9Q2pWd3l5.mp3"
   artist: "一抹憨色"
 {% endmedia %}
+
+
+
+# 本文作者： Ruri Shimotsuki @優萌初華
+# 本文链接： https://shoka.lostyu.me/computer-science/note/theme-shoka-doc/special/
+# 版权声明： 本站所有文章除特别声明外，均采用 (CC)BY-NC-SA 许可协议。转载请注明出处！
+
+{% links %}
+- site: 咕咕咕
+  owner: 咕
+  url: https://github.com/CWYfiction/apk/blob/master/PicACG_2.1.0.7.apk
+  desc: 奇怪的东西
+  image: images/avatar.jpg
+  color: "#9d5b8b"
+{% endlinks %}
