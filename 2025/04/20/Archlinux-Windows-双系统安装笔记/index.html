@@ -1,0 +1,716 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>Archlinux + Windows 双系统安装笔记 | 槿鸢茶屋</title><meta name="keywords" content="Arch"><meta name="author" content="槿鸢"><meta name="copyright" content="槿鸢"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="Archlinux + Windows 双系统安装笔记"><meta name="application-name" content="Archlinux + Windows 双系统安装笔记"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="Archlinux + Windows 双系统安装笔记"><meta property="og:url" content="https://azzlantern.github.io/2025/04/20/Archlinux-Windows-%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/index.html"><meta property="og:site_name" content="槿鸢茶屋"><meta property="og:description" content="一直馋arch，但是不敢装，怕自己手残搞寄了，得亏得到高人指点，装好了，现在写个笔记避免忘记（ 注意:* 先备份 Windows 和重要文件！* 操作有风险，请注意。* 设备名可能不同， 比如硬盘分区名 (&amp;#x2F;dev&amp;#x2F;nvme0n1pX, &amp;#x2F;dev&amp;#x2F;sdaX)，根据你自己的 fdisk -l 结果替换"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://img.picgo.net/2025/04/20/73173e4a7a9cf0520c1053b6f68fccea_720d87aea7c6113437a.png"><meta property="article:author" content="槿鸢"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://img.picgo.net/2025/04/20/73173e4a7a9cf0520c1053b6f68fccea_720d87aea7c6113437a.png"><meta name="description" content="一直馋arch，但是不敢装，怕自己手残搞寄了，得亏得到高人指点，装好了，现在写个笔记避免忘记（ 注意:* 先备份 Windows 和重要文件！* 操作有风险，请注意。* 设备名可能不同， 比如硬盘分区名 (&amp;#x2F;dev&amp;#x2F;nvme0n1pX, &amp;#x2F;dev&amp;#x2F;sdaX)，根据你自己的 fdisk -l 结果替换"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://azzlantern.github.io/2025/04/20/Archlinux-Windows-%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/"><link rel="preconnect" href="//cdn.cbd.int"><link rel="preconnect" href="//busuanzi.ibruce.info"><meta name="google-site-verification" content="xxx"><meta name="baidu-site-verification" content="code-xxx"><meta name="msvalidate.01" content="xxx"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"tianli","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"RBQQPsO0VYv","Referer":"https://tianli0.top/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: 'https://azzlantern-twikoo.hf.space/',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: {"apiurl":null},
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: {"skills":["🕊️ 咕咕咕"]},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: 槿鸢","link":"链接: ","source":"来源: 槿鸢茶屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: {"enable":true,"delay":100,"shiftDelay":200},
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: '槿鸢茶屋',
+  title: 'Archlinux + Windows 双系统安装笔记',
+  postAI: '',
+  pageFillDescription: '注意* 先备份 Windows 和重要文件！* 操作有风险请注意。* 设备名可能不同 比如硬盘分区名 (/dev/nvme0n1pX /dev/sdaX)根据你自己的 fdisk -l 结果替换。, 1. 准备镜像, 2. 分区 (Windows 环境下), 3. 安装 Arch (基础部分), 4. 配置 Arch (Chroot 环境里), 5. 完成与重启, 6. 重启之后一直馋但是不敢装怕自己手残搞寄了得亏得到高人指点装好了现在写个笔记避免忘记注意先备份和重要文件操作有风险请注意设备名可能不同比如硬盘分区名根据你自己的结果替换准备镜像下载去官方或者镜像站我用清华源下载最新的文件写入盘把文件弄到盘里我用的直接拷进去就行也可以用或刻录分区环境下打开磁盘管理里右键开始菜单磁盘管理压缩卷找个盘右键压缩卷腾出空间给创建分区不格式化在未分配空间上右键新建简单卷建分区大小给不分配盘符不格式化建分区把剩下空间都给它比如我给了不分配盘符不格式化分区自带的那个不用动安装基础部分盘启动重启进按等关掉设置盘启动优先识别分区进安装环境后执行或者记下你的分区分区分区的名字比如我的是后面命令要用格式化分区把下面的设备名换成你自己的分区格式化成分区格式化成是强制挂载分区按顺序挂载挂载分区到开了压缩创建挂载点挂载分区到挂载分区到装基本系统注意这一步需要基础网络连接才能下载包只安装最基础的包内核和固件生成生成分区挂载配置文件用识别分区追加到新系统文件可以检查下进去切换到新安装的系统环境进行配置配置环境里现在在新系统环境里操作联网进来后需要在这里配置网络才能继续装包和更新可以使用或其他工具连接或者手机网络共享也可以用确保网络通畅才能进行下一步换源建议换国内源提升后续下载速度用自带的编辑器此时可能还没装在文件最顶上加一行清华源或者其他国内源保存退出保存退出刷新一下软件包数据库让新源生效安装常用工具安装编辑器网络管理器工具如果根分区是设置时区让硬件时钟用本地时间避免时间错乱我装完之后发现和时间不一致所以装好之后才搞了这个记得进系统在日期和时间那打开自动设置日期和时间然后应该就没问题了设置语言编辑把需要的语言如前面的去掉保存退出后执行设置系统默认语言设置主机名主机名可选编辑文件添加主机名映射加上你的主机名你的主机名启用网络服务让开机自动运行配置需要如果分区是需要这步编辑在行的后面加上保存退出后执行分区跳过此步设置密码可选安装启动引导装相关包安装到分区配置检测其他系统如找到去掉保存退出后生成配置创建普通用户把用户名换成你的用户名给用户设置密码用户名允许组用户使用找到去掉保存退出安装桌面环境和软件我的选择装和常用应用登录器装中日韩字体可选装蓝牙工具并启用服务启用登录界面让开机启动配置可选如果想手动指定编辑配置在下面取消注释并修改和保存退出可能需要生效完成与重启退出卸载分区重启重启之后进菜单选启动用你创建的用户名和密码登录进系统后先联网更新系统之后就是装软件配置输入法等等后续配置就可以参考如果进系统有些地方不是中文可能需要把所有中文相关项取消注释然后再重启试试也检查下自己的区域语言设置',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-04-20 20:01:15',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://img.picgo.net/2024/11/21/tx4a3cb39970cebb8f.jpg"><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="https://azzlantern.github.io" title="博客"><img class="back-menu-item-icon" src="/img/favicon.ico" alt="博客"><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://azzlantern.us.kg" title="URL短链接"><img class="back-menu-item-icon" src="/img/URL.png" alt="URL短链接"><span class="back-menu-item-text">URL短链接</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">槿鸢茶屋</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=2803167371&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button" title="随机前往一个开往项目网站"><a class="site-page" onclick="anzhiyu.totraveling()" title="随机前往一个开往项目网站" href="javascript:void(0);" rel="external nofollow" data-pjax-state="external"><i class="anzhiyufont anzhiyu-icon-train"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">音乐</div><span class="author-content-item-title">灵魂的碰撞💥</span></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/04/"><span class="card-archive-list-date">四月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/03/"><span class="card-archive-list-date">三月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/02/"><span class="card-archive-list-date">二月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">十一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">十月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div><div class="console-btn-item" id="consoleKeyboard" onclick="anzhiyu.keyboardToggle()" title="快捷键开关"><a class="keyboard-switch"><i class="anzhiyufont anzhiyu-icon-keyboard"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%97%A5%E5%B8%B8/" itemprop="url">日常</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/Arch/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Arch</span></a></span></div></div><h1 class="post-title" itemprop="name headline">Archlinux + Windows 双系统安装笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2025-04-20T11:54:16.000Z" title="发表于 2025-04-20 19:54:16">2025-04-20</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2025-04-20T12:01:15.798Z" title="更新于 2025-04-20 20:01:15">2025-04-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字数总计:</span><span class="word-count" title="文章字数">1.5k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="Archlinux + Windows 双系统安装笔记"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为成都"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>成都</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://img.picgo.net/2025/04/20/73173e4a7a9cf0520c1053b6f68fccea_720d87aea7c6113437a.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope="" itemtype="https://azzlantern.github.io/2025/04/20/Archlinux-Windows-%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/"><header><a class="post-meta-categories" href="/categories/%E6%97%A5%E5%B8%B8/" itemprop="url">日常</a><a href="/tags/Arch/" tabindex="-1" itemprop="url">Arch</a><h1 id="CrawlerTitle" itemprop="name headline">Archlinux + Windows 双系统安装笔记</h1><span itemprop="author" itemscope="" itemtype="http://schema.org/Person">槿鸢</span><time itemprop="dateCreated datePublished" datetime="2025-04-20T11:54:16.000Z" title="发表于 2025-04-20 19:54:16">2025-04-20</time><time itemprop="dateCreated datePublished" datetime="2025-04-20T12:01:15.798Z" title="更新于 2025-04-20 20:01:15">2025-04-20</time></header><div id="postchat_postcontent"><p>一直馋arch，但是不敢装，怕自己手残搞寄了，得亏得到高人指点，装好了，现在写个笔记避免忘记（</p>
+<h2 id="注意-先备份-Windows-和重要文件！-操作有风险，请注意。-设备名可能不同，-比如硬盘分区名-dev-nvme0n1pX-dev-sdaX-，根据你自己的-fdisk-l-结果替换。"><a href="#注意-先备份-Windows-和重要文件！-操作有风险，请注意。-设备名可能不同，-比如硬盘分区名-dev-nvme0n1pX-dev-sdaX-，根据你自己的-fdisk-l-结果替换。" class="headerlink" title="注意:* 先备份 Windows 和重要文件！* 操作有风险，请注意。* 设备名可能不同， 比如硬盘分区名 (/dev/nvme0n1pX, /dev/sdaX)，根据你自己的 fdisk -l 结果替换。"></a><strong>注意:</strong><br>* <strong>先备份 Windows 和重要文件！</strong><br>* <strong>操作有风险，请注意。</strong><br>* <strong>设备名可能不同，</strong> 比如硬盘分区名 (<code>/dev/nvme0n1pX</code>, <code>/dev/sdaX</code>)，根据你自己的 <code>fdisk -l</code> 结果替换。</h2><h2 id="1-准备镜像"><a href="#1-准备镜像" class="headerlink" title="1. 准备镜像"></a>1. 准备镜像</h2><ol>
+<li><strong>下载 ISO:</strong><ul>
+<li>去官方或者镜像站 (我用清华源: <a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/">https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/</a>) 下载最新的 Arch Linux ISO 文件。</li>
+</ul>
+</li>
+<li><strong>写入 U 盘:</strong><ul>
+<li>把 ISO 文件弄到 U 盘里。</li>
+<li>我用的 Ventoy，直接拷进去就行。也可以用 Rufus 或 BalenaEtcher 刻录。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-分区-Windows-环境下"><a href="#2-分区-Windows-环境下" class="headerlink" title="2. 分区 (Windows 环境下)"></a>2. 分区 (Windows 环境下)</h2><ol>
+<li><strong>打开磁盘管理:</strong><ul>
+<li>Windows 里右键开始菜单 -&gt; “磁盘管理”。</li>
+</ul>
+</li>
+<li><strong>压缩卷:</strong><ul>
+<li>找个盘，右键 -&gt; “压缩卷”，腾出空间给 Arch。</li>
+</ul>
+</li>
+<li><strong>创建分区 (不格式化):</strong><ul>
+<li>在”未分配”空间上右键 -&gt; “新建简单卷”。</li>
+<li><strong>建 Boot 分区:</strong> 大小给 <code>1G</code> (1024 MB)。<strong>不分配盘符，不格式化。</strong></li>
+<li><strong>建 Root 分区:</strong> 把剩下空间都给它 (比如我给了 200G)。<strong>不分配盘符，不格式化。</strong></li>
+<li><strong>EFI 分区:</strong> Windows 自带的那个，不用动。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="3-安装-Arch-基础部分"><a href="#3-安装-Arch-基础部分" class="headerlink" title="3. 安装 Arch (基础部分)"></a>3. 安装 Arch (基础部分)</h2><ol>
+<li><strong>U 盘启动:</strong><ul>
+<li>重启进 BIOS (按 <code>F2</code>, <code>F12</code>, <code>DEL</code> 等)，**关掉 <code>Secure Boot</code>**，设置 U 盘启动优先。</li>
+</ul>
+</li>
+<li><strong>识别分区:</strong><ul>
+<li>进 Arch 安装环境后，执行:  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br><span class="line"><span class="comment"># 或者 lsblk</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><strong>记下你的 EFI 分区、Boot 分区、Root 分区的名字</strong> (比如我的是 <code>/dev/nvme0n1p1</code>, <code>/dev/nvme0n1p5</code>, <code>/dev/nvme0n1p6</code>)。后面命令要用。</li>
+</ul>
+</li>
+<li><strong>格式化分区:</strong><ul>
+<li><strong>把下面的设备名换成你自己的!!!</strong>  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Boot 分区格式化成 ext4</span></span><br><span class="line">mkfs.ext4 /dev/nvme0n1p5</span><br><span class="line"></span><br><span class="line"><span class="comment"># Root 分区格式化成 Btrfs (-f 是强制)</span></span><br><span class="line">mkfs.btrfs -f /dev/nvme0n1p6</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+<li><strong>挂载分区:</strong><ul>
+<li>按顺序挂载。  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 挂载 Root 分区 (Btrfs) 到 /mnt，开了 zstd 压缩</span></span><br><span class="line">mount -t btrfs -o compress=zstd:5 /dev/nvme0n1p6 /mnt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建挂载点</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /mnt/boot/efi</span><br><span class="line"></span><br><span class="line"><span class="comment"># 挂载 Boot 分区 (ext4) 到 /mnt/boot</span></span><br><span class="line">mount -t ext4 /dev/nvme0n1p5 /mnt/boot</span><br><span class="line"></span><br><span class="line"><span class="comment"># 挂载 EFI 分区到 /mnt/boot/efi</span></span><br><span class="line">mount /dev/nvme0n1p1 /mnt/boot/efi</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+<li><strong>装基本系统:</strong><ul>
+<li><strong>注意:</strong> 这一步需要基础网络连接才能下载包。  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只安装最基础的包、内核和固件</span></span><br><span class="line">pacstrap /mnt base base-devel linux linux-firmware</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+<li><strong>生成 fstab:</strong><ul>
+<li>生成分区挂载配置文件。  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -U 用 UUID 识别分区，&gt;&gt; 追加到新系统 fstab 文件</span></span><br><span class="line">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</span><br><span class="line"><span class="comment"># 可以 cat /mnt/etc/fstab 检查下</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+<li><strong>Chroot 进去:</strong><ul>
+<li>切换到新安装的系统环境进行配置。  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arch-chroot /mnt</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="4-配置-Arch-Chroot-环境里"><a href="#4-配置-Arch-Chroot-环境里" class="headerlink" title="4. 配置 Arch (Chroot 环境里)"></a>4. 配置 Arch (Chroot 环境里)</h2><p>现在在新系统环境里操作。</p>
+<ol>
+<li><p><strong>联网:</strong></p>
+<ul>
+<li>Chroot 进来后，需要在这里配置网络才能继续装包和更新。</li>
+<li>可以使用 <code>iwctl</code> 或其他工具连接 WiFi，或者手机USB网络共享也可以用。</li>
+<li><strong>确保网络通畅</strong>才能进行下一步。</li>
+</ul>
+</li>
+<li><p><strong>换源:</strong></p>
+<ul>
+<li><strong>建议换国内源，</strong> 提升后续下载速度。  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用自带的 vi 编辑器 (此时可能还没装 nano)</span></span><br><span class="line">vi /etc/pacman.d/mirrorlist</span><br><span class="line"><span class="comment"># 在文件最顶上，加一行清华源 (或者其他国内源)</span></span><br><span class="line"><span class="comment"># Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch</span></span><br><span class="line"><span class="comment"># 保存退出 (:wq 保存退出 vi)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新一下软件包数据库，让新源生效</span></span><br><span class="line">pacman -Syy</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+<li><p><strong>安装常用工具:</strong></p>
+<ul>
+<li>安装 nano/vim 编辑器、NetworkManager 网络管理器、btrfs-progs 工具（如果根分区是 btrfs）  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S nano vim networkmanager btrfs-progs</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+<li><p><strong>设置时区:</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 让硬件时钟用本地时间，避免 Windows 时间错乱</span></span><br><span class="line">timedatectl set-local-rtc 1 --adjust-system-clock</span><br><span class="line"><span class="comment"># 我装完之后发现Windows和linux时间不一致，所以装好之后才搞了这个，记得进系统在日期和时间那打开自动设置日期和时间，然后应该就没问题了</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><strong>设置 Locale (语言):</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 locale.gen </span></span><br><span class="line">vi /etc/locale.gen</span><br><span class="line"><span class="comment"># 把需要的语言 (如 en_US.UTF-8, zh_CN.UTF-8) 前面的 # 去掉</span></span><br><span class="line"><span class="comment"># 保存退出后执行:</span></span><br><span class="line">locale-gen</span><br><span class="line"><span class="comment"># 设置系统默认语言</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"LANG=zh_CN.UTF-8"</span> &gt; /etc/locale.conf</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><strong>设置主机名:</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname 主机名</span><br><span class="line"><span class="comment"># (可选) 编辑 hosts 文件，添加主机名映射</span></span><br><span class="line"><span class="comment"># nano /etc/hosts</span></span><br><span class="line"><span class="comment"># 加上 127.0.1.1   你的主机名.localdomain  你的主机名</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><strong>启用网络服务:</strong></p>
+<ul>
+<li>让 NetworkManager 开机自动运行。  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> NetworkManager</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+<li><p><strong>配置 Initramfs (Btrfs 需要):</strong></p>
+<ul>
+<li>如果 Root 分区是 Btrfs，需要这步。  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 mkinitcpio.conf</span></span><br><span class="line">nano /etc/mkinitcpio.conf</span><br><span class="line"><span class="comment"># 在 HOOKS=(...) 行的 filesystems 后面加上 btrfs</span></span><br><span class="line"><span class="comment"># 保存退出后执行:</span></span><br><span class="line">mkinitcpio -P</span><br></pre></td></tr></tbody></table></figure></li>
+<li><strong>Ext4 Root 分区跳过此步。</strong></li>
+</ul>
+</li>
+<li><p><strong>设置 Root 密码 (可选):</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><strong>安装 GRUB (启动引导):</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 装 GRUB 相关包</span></span><br><span class="line">pacman -S grub efibootmgr os-prober</span><br><span class="line"><span class="comment"># 安装 GRUB 到 EFI 分区</span></span><br><span class="line">grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=<span class="string">"Arch Linux"</span></span><br><span class="line"><span class="comment"># 配置 GRUB 检测其他系统 (如 Windows)</span></span><br><span class="line">vi /etc/default/grub</span><br><span class="line"><span class="comment"># 找到 #GRUB_DISABLE_OS_PROBER=false，去掉 #</span></span><br><span class="line"><span class="comment"># 保存退出后生成 GRUB 配置</span></span><br><span class="line">grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><strong>创建普通用户:</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把 "用户名" 换成你的</span></span><br><span class="line">useradd -m -G wheel 用户名</span><br><span class="line"><span class="comment"># 给用户设置密码</span></span><br><span class="line">passwd 用户名</span><br><span class="line"><span class="comment"># 允许 wheel 组用户使用 sudo</span></span><br><span class="line">vi /etc/sudoers</span><br><span class="line"><span class="comment"># 找到 # %wheel ALL=(ALL:ALL) ALL，去掉 #</span></span><br><span class="line"><span class="comment"># 保存退出</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><strong>安装桌面环境和软件 (我的选择):</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 装 KDE Plasma 和常用应用、SDDM 登录器</span></span><br><span class="line">pacman -S plasma kde-applications sddm</span><br><span class="line"><span class="comment"># 装中日韩字体</span></span><br><span class="line">pacman -S noto-fonts-cjk</span><br><span class="line"><span class="comment"># (可选) 装蓝牙工具并启用服务</span></span><br><span class="line">pacman -S bluez bluez-utils</span><br><span class="line">systemctl <span class="built_in">enable</span> bluetooth</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><strong>启用登录界面:</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 让 SDDM 开机启动</span></span><br><span class="line">systemctl <span class="built_in">enable</span> sddm</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><strong>配置 DNS (可选):</strong></p>
+<ul>
+<li>如果想手动指定 DNS。  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 systemd-resolved 配置</span></span><br><span class="line"><span class="built_in">sudo</span> nano /etc/systemd/resolved.conf</span><br><span class="line"><span class="comment"># 在 [Resolve] 下面取消注释并修改 DNS= 和 FallbackDNS=</span></span><br><span class="line"><span class="comment"># DNS=8.8.8.8 1.1.1.1</span></span><br><span class="line"><span class="comment"># FallbackDNS=9.9.9.9</span></span><br><span class="line"><span class="comment"># 保存退出 (可能需要 systemctl restart systemd-resolved 生效)</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-完成与重启"><a href="#5-完成与重启" class="headerlink" title="5. 完成与重启"></a>5. 完成与重启</h2><ol>
+<li><strong>退出 Chroot:</strong><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><strong>卸载分区:</strong><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">umount -R /mnt</span><br></pre></td></tr></tbody></table></figure></li>
+<li><strong>重启:</strong><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+<hr>
+<h2 id="6-重启之后"><a href="#6-重启之后" class="headerlink" title="6. 重启之后"></a>6. 重启之后</h2><ul>
+<li>进 GRUB 菜单选 “Arch Linux” 启动。</li>
+<li>用你创建的用户名和密码登录。</li>
+<li>进系统后先联网，更新系统： <code>sudo pacman -Syu</code>。</li>
+<li>之后就是装软件、配置输入法等等。</li>
+<li>后续配置就可以参考(<a target="_blank" rel="noopener" href="https://blog.archlinux.tech/">https://blog.archlinux.tech</a>)。</li>
+<li>如果进系统有些地方不是中文，可能需要 <code>sudo nano /etc/locale.gen</code> 把所有中文相关项取消注释，然后 <code>sudo locale-gen</code> 再重启试试。也检查下 KDE 自己的区域语言设置。</li>
+</ul>
+<hr>
+</div></article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.picgo.net/2024/11/21/tx4a3cb39970cebb8f.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.picgo.net/2024/11/21/tx4a3cb39970cebb8f.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">槿鸢</div><div class="post-copyright__author_desc">咕咕咕</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://azzlantern.github.io/2025/04/20/Archlinux-Windows-%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://azzlantern.github.io/2025/04/20/Archlinux-Windows-%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/')">Archlinux + Windows 双系统安装笔记</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://azzlantern.github.io/2025/04/20/Archlinux-Windows-%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=Archlinux + Windows 双系统安装笔记&amp;url=https://azzlantern.github.io/2025/04/20/Archlinux-Windows-%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/&amp;pic=https://img.picgo.net/2025/04/20/73173e4a7a9cf0520c1053b6f68fccea_720d87aea7c6113437a.png" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://azzlantern.github.io" target="_blank">槿鸢茶屋</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/Arch/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Arch<span class="tagsPageCount">1</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://img.picgo.net/2025/04/20/73173e4a7a9cf0520c1053b6f68fccea_720d87aea7c6113437a.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2025/03/12/English-Class-Presentation-%E5%B0%8F%E7%B1%B3%EF%BC%9AMIUI%E5%88%B0HyperOS%E7%9A%84%E6%99%BA%E8%83%BD%E6%BC%94%E8%BF%9B/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.picgo.net/2025/03/12/Image_28333356526115f4645a1b2a839da4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">[English Class Presentation] 小米：MIUI到HyperOS的智能演进</div></div></a></div></nav><hr><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="anzhiyufont anzhiyu-icon-comments"></i><span> 评论</span></div><div class="comment-randomInfo"><a onclick="anzhiyu.addRandomCommentInfo()" href="javascript:void(0)">匿名评论</a><a href="/privacy" style="margin-left: 4px">隐私政策</a></div><div class="comment-tips" id="comment-tips"><span>✅ 你无需删除空行，直接评论以获取最佳展示效果</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div><div class="comment-barrage"></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.picgo.net/2024/11/21/tx4a3cb39970cebb8f.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2021/01/18/60891c4e72059.gif" alt="status"></div></div><div class="author-info__description"></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">槿鸢</h1><div class="author-info__desc">咕咕咕</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/azzlantern" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/512803414" target="_blank" title="BiliBili"><i class="anzhiyufont anzhiyu-icon-bilibili"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F-%E5%85%88%E5%A4%87%E4%BB%BD-Windows-%E5%92%8C%E9%87%8D%E8%A6%81%E6%96%87%E4%BB%B6%EF%BC%81-%E6%93%8D%E4%BD%9C%E6%9C%89%E9%A3%8E%E9%99%A9%EF%BC%8C%E8%AF%B7%E6%B3%A8%E6%84%8F%E3%80%82-%E8%AE%BE%E5%A4%87%E5%90%8D%E5%8F%AF%E8%83%BD%E4%B8%8D%E5%90%8C%EF%BC%8C-%E6%AF%94%E5%A6%82%E7%A1%AC%E7%9B%98%E5%88%86%E5%8C%BA%E5%90%8D-dev-nvme0n1pX-dev-sdaX-%EF%BC%8C%E6%A0%B9%E6%8D%AE%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84-fdisk-l-%E7%BB%93%E6%9E%9C%E6%9B%BF%E6%8D%A2%E3%80%82"><span class="toc-number">1.</span> <span class="toc-text">注意:* 先备份 Windows 和重要文件！* 操作有风险，请注意。* 设备名可能不同， 比如硬盘分区名 (/dev/nvme0n1pX, /dev/sdaX)，根据你自己的 fdisk -l 结果替换。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%87%86%E5%A4%87%E9%95%9C%E5%83%8F"><span class="toc-number">2.</span> <span class="toc-text">1. 准备镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%88%86%E5%8C%BA-Windows-%E7%8E%AF%E5%A2%83%E4%B8%8B"><span class="toc-number">3.</span> <span class="toc-text">2. 分区 (Windows 环境下)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85-Arch-%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86"><span class="toc-number">4.</span> <span class="toc-text">3. 安装 Arch (基础部分)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%85%8D%E7%BD%AE-Arch-Chroot-%E7%8E%AF%E5%A2%83%E9%87%8C"><span class="toc-number">5.</span> <span class="toc-text">4. 配置 Arch (Chroot 环境里)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%8C%E6%88%90%E4%B8%8E%E9%87%8D%E5%90%AF"><span class="toc-number">6.</span> <span class="toc-text">5. 完成与重启</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E9%87%8D%E5%90%AF%E4%B9%8B%E5%90%8E"><span class="toc-number">7.</span> <span class="toc-text">6. 重启之后</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/20/Archlinux-Windows-%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/" title="Archlinux + Windows 双系统安装笔记"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.picgo.net/2025/04/20/73173e4a7a9cf0520c1053b6f68fccea_720d87aea7c6113437a.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Archlinux + Windows 双系统安装笔记"></a><div class="content"><a class="title" href="/2025/04/20/Archlinux-Windows-%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/" title="Archlinux + Windows 双系统安装笔记">Archlinux + Windows 双系统安装笔记</a><time datetime="2025-04-20T11:54:16.000Z" title="发表于 2025-04-20 19:54:16">2025-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/12/English-Class-Presentation-%E5%B0%8F%E7%B1%B3%EF%BC%9AMIUI%E5%88%B0HyperOS%E7%9A%84%E6%99%BA%E8%83%BD%E6%BC%94%E8%BF%9B/" title="[English Class Presentation] 小米：MIUI到HyperOS的智能演进"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.picgo.net/2025/03/12/Image_28333356526115f4645a1b2a839da4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="[English Class Presentation] 小米：MIUI到HyperOS的智能演进"></a><div class="content"><a class="title" href="/2025/03/12/English-Class-Presentation-%E5%B0%8F%E7%B1%B3%EF%BC%9AMIUI%E5%88%B0HyperOS%E7%9A%84%E6%99%BA%E8%83%BD%E6%BC%94%E8%BF%9B/" title="[English Class Presentation] 小米：MIUI到HyperOS的智能演进">[English Class Presentation] 小米：MIUI到HyperOS的智能演进</a><time datetime="2025-03-12T11:42:52.000Z" title="发表于 2025-03-12 19:42:52">2025-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/12/%E7%94%A8NapCat-Yunzai%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAQQ%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%B9%B6%E6%8E%A5%E5%85%A5Gemini/" title="用NapCat+Yunzai搭建一个QQ机器人并接入Gemini"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.picgo.net/2025/02/11/100001840409da934b62aca8f3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="用NapCat+Yunzai搭建一个QQ机器人并接入Gemini"></a><div class="content"><a class="title" href="/2025/02/12/%E7%94%A8NapCat-Yunzai%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAQQ%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%B9%B6%E6%8E%A5%E5%85%A5Gemini/" title="用NapCat+Yunzai搭建一个QQ机器人并接入Gemini">用NapCat+Yunzai搭建一个QQ机器人并接入Gemini</a><time datetime="2025-02-12T04:44:43.000Z" title="发表于 2025-02-12 12:44:43">2025-02-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/25/%E6%B3%A0%E9%B8%A2%E4%B8%89%E4%B8%93%E3%80%8A%E8%87%AA%E4%B8%8B%E8%80%8C%E5%90%91%E4%B8%8A%E5%8D%87%E3%80%8B%E5%BC%80%E7%AE%B1/" title="泠鸢三专《自下而向上升》开箱"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.picgo.net/2024/11/25/E0E8A0D02E184BF21B26AA5289E027629e7cabd3aed0d812.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="泠鸢三专《自下而向上升》开箱"></a><div class="content"><a class="title" href="/2024/11/25/%E6%B3%A0%E9%B8%A2%E4%B8%89%E4%B8%93%E3%80%8A%E8%87%AA%E4%B8%8B%E8%80%8C%E5%90%91%E4%B8%8A%E5%8D%87%E3%80%8B%E5%BC%80%E7%AE%B1/" title="泠鸢三专《自下而向上升》开箱">泠鸢三专《自下而向上升》开箱</a><time datetime="2024-11-25T11:30:30.000Z" title="发表于 2024-11-25 19:30:30">2024-11-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/21/%E7%8B%AC%E7%AB%8B%E6%8C%89%E9%94%AE%E6%8E%A7%E5%88%B6LED/" title="独立按键控制LED"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.picgo.net/2024/11/21/PC_034498f24c3fed4ddf.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="独立按键控制LED"></a><div class="content"><a class="title" href="/2024/11/21/%E7%8B%AC%E7%AB%8B%E6%8C%89%E9%94%AE%E6%8E%A7%E5%88%B6LED/" title="独立按键控制LED">独立按键控制LED</a><time datetime="2024-11-21T05:53:34.000Z" title="发表于 2024-11-21 13:53:34">2024-11-21</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="workboard"><img class="workSituationImg boardsign" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.0.4/img/badge/Frame-Hexo.svg" alt="大佬带带~" title="大佬带带~"><div id="runtimeTextTip"></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">©2024 - 2025 By <a class="footer-bar-link" href="/" title="槿鸢" target="_blank">槿鸢</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">2</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="https://azzlantern.github.io" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://azzlantern.us.kg" title="URL短链接"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/URL.png" alt="URL短链接"><span class="back-menu-item-text">URL短链接</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=2803167371&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/51%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 0.88rem;">51单片机<sup>1</sup></a><a href="/tags/Arch/" style="font-size: 0.88rem;">Arch<sup>1</sup></a><a href="/tags/%E5%A4%A7%E5%AD%A6/" style="font-size: 0.88rem;">大学<sup>1</sup></a><a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 0.88rem;">日常<sup>1</sup></a><a href="/tags/%E9%9F%B3%E4%B9%90/" style="font-size: 0.88rem;">音乐<sup>1</sup></a></div></div><hr></div></div><div id="keyboard-tips"><div class="keyboardTitle">博客快捷键</div><div class="keybordList"><div class="keybordItem"><div class="keyGroup"><div class="key">shift K</div></div><div class="keyContent"><div class="content">关闭快捷键功能</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift A</div></div><div class="keyContent"><div class="content">打开/关闭中控台</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift M</div></div><div class="keyContent"><div class="content">播放/暂停音乐</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift D</div></div><div class="keyContent"><div class="content">深色/浅色显示模式</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift S</div></div><div class="keyContent"><div class="content">站内搜索</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift R</div></div><div class="keyContent"><div class="content">随机访问</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift H</div></div><div class="keyContent"><div class="content">返回首页</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift F</div></div><div class="keyContent"><div class="content">友链鱼塘</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift L</div></div><div class="keyContent"><div class="content">友链页面</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift P</div></div><div class="keyContent"><div class="content">关于本站</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift I</div></div><div class="keyContent"><div class="content">原版/本站右键菜单</div></div></div></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="2803167371" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://music.163.com/#/playlist?id=2803167371&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async="" src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("07/04/2024 23:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2024 By 安知鱼 V1.6.12",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 槿鸢 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async="" src="/anzhiyu/random.js"></script><script async="async">(function () {
+  var grt = new Date("07/04/2024 23:00:00"); //设置网站上线时间
+  var now = new Date();
+  var dnum;
+  var hnum;
+  var mnum;
+  var snum;
+  var nowHour;
+
+  // 计算并更新天数、小时数、分钟数和秒数
+  function updateTime() {
+    now = new Date(); // 更新 now 的值
+    nowHour = now.getHours(); // 更新 nowHour 的值
+    var days = (now - grt) / 1000 / 60 / 60 / 24;
+    dnum = Math.floor(days);
+    var hours = (now - grt) / 1000 / 60 / 60 - 24 * dnum;
+    hnum = Math.floor(hours);
+    if (String(hnum).length == 1) {
+      hnum = "0" + hnum;
+    }
+    var minutes = (now - grt) / 1000 / 60 - 24 * 60 * dnum - 60 * hnum;
+    mnum = Math.floor(minutes);
+    if (String(mnum).length == 1) {
+      mnum = "0" + mnum;
+    }
+    var seconds = (now - grt) / 1000 - 24 * 60 * 60 * dnum - 60 * 60 * hnum - 60 * mnum;
+    snum = Math.round(seconds);
+    if (String(snum).length == 1) {
+      snum = "0" + snum;
+    }
+  }
+
+  // 更新网页中显示的网站运行时间
+  function updateHtml() {
+    const footer = document.getElementById("footer");
+    if (!footer) return
+    let currentTimeHtml = "";
+    if (nowHour < 18 && nowHour >= 9) {
+      // 如果是上班时间，默认就是"安知鱼-上班摸鱼中.svg"图片，不需要更改
+      currentTimeHtml = `本站居然运行了 ${dnum} 天<span id='runtime'> ${hnum} 小时 ${mnum} 分 ${snum} 秒 </span><i class='anzhiyufont anzhiyu-icon-heartbeat' style='color:red'></i>`;
+    } else {
+      // 如果是下班时间，插入"安知鱼-下班啦.svg"图片
+      let img = document.querySelector("#workboard .workSituationImg");
+      if (img != null) {
+        img.src = "https://npm.elemecdn.com/anzhiyu-blog@2.0.4/img/badge/Frame-Hexo.svg";
+        img.title = "没事了就该开开心心的摸鱼，哼哼~";
+        img.alt = "没事了就该开开心心的摸鱼，哼哼~";
+      }
+
+      currentTimeHtml = `本站居然运行了 ${dnum} 天<span id='runtime'> ${hnum} 小时 ${mnum} 分 ${snum} 秒 </span><i class='anzhiyufont anzhiyu-icon-heartbeat' style='color:red'></i>`;
+    }
+
+    if (document.getElementById("runtimeTextTip")) {
+      document.getElementById("runtimeTextTip").innerHTML = currentTimeHtml;
+    }
+  }
+
+  setInterval(() => {
+    updateTime();
+    updateHtml();
+  }, 1000);
+})();</script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://azzlantern-twikoo.hf.space/',
+      region: 'mianyang',
+      onCommentLoaded: () => {
+        anzhiyu.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(runFn,0)
+    else getScript('https://cdn.cbd.int/twikoo@1.6.39/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://azzlantern-twikoo.hf.space/',
+      region: 'mianyang',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const runFn = () => {
+    init();
+    
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) anzhiyu.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script><input type="hidden" name="page-type" id="page-type" value="post"></div><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getComment = () => {
+    const runTwikoo = () => {
+      twikoo.getRecentComments({
+        envId: 'https://azzlantern-twikoo.hf.space/',
+        region: 'mianyang',
+        pageSize: 6,
+        includeReply: true
+      }).then(function (res) {
+        const twikooArray = res.map(e => {
+          return {
+            'content': changeContent(e.comment),
+            'avatar': e.avatar,
+            'nick': e.nick,
+            'url': e.url + '#' + e.id,
+            'date': new Date(e.created).toISOString()
+          }
+        })
+
+        saveToLocal.set('twikoo-newest-comments', JSON.stringify(twikooArray), 10/(60*24))
+        generateHtml(twikooArray)
+      }).catch(function (err) {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "无法获取评论，请确认相关配置是否正确"
+      })
+    }
+
+    if (typeof twikoo === 'object') {
+      runTwikoo()
+    } else {
+      getScript('https://cdn.cbd.int/twikoo@1.6.39/dist/twikoo.all.min.js').then(runTwikoo)
+    }
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'><div class='name'><span>${array[i].nick} </span></div></a>`
+        }
+        
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <time datetime="${array[i].date}">${anzhiyu.diffDate(array[i].date, true)}</time></div>
+        </div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom && ($dom.innerHTML= result)
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('twikoo-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script>var visitorMail = "";
+</script><script async="" data-pjax="" src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:type\"]","meta[property=\"og:site_name\"]","meta[property=\"og:description\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div>
+    <link rel="stylesheet" href="https://ai.tianli0.top/static/public/postChatUser_summary.min.css">
+    <script>
+        let tianliGPT_key = 'RBQQPsO0VYv';
+        let tianliGPT_postSelector = '#postchat_postcontent';
+        let tianliGPT_Title = '文章摘要';
+        let tianliGPT_postURL = '/^https?://[^/]+/[0-9]{4}/[0-9]{2}/[0-9]{2}/';
+        let tianliGPT_blacklist = '';
+        let tianliGPT_wordLimit = '1000';
+        let tianliGPT_typingAnimate = true;
+        let tianliGPT_theme = 'default';
+        var postChatConfig = {
+          backgroundColor: "#3e86f6",
+          bottom: "16px",
+          left: "16px",
+          fill: "#FFFFFF",
+          width: "44px",
+          frameWidth: "375px",
+          frameHeight: "600px",
+          defaultInput: true,
+          upLoadWeb: true,
+          showInviteLink: true,
+          userTitle: "PostChat",
+          userDesc: "如果你对网站的内容有任何疑问，可以来问我哦～",
+          addButton: true,
+          beginningText: "这篇文章介绍了",
+          userIcon: "https://ai.tianli0.top/static/img/PostChat.webp",
+          userMode: "magic",
+          defaultChatQuestions: ["你好","你是谁"],
+          defaultSearchQuestions: ["视频压缩","设计"]
+        };
+    </script>
+    <script data-postchat_key="RBQQPsO0VYv" src="https://ai.tianli0.top/static/public/tianli_gpt.min.js"></script>
+  </body></html>
