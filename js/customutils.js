@@ -54,7 +54,7 @@ const NaoKuo = {
   showWelcome: (ipStore) => {
     const WelcomeInfo = document.getElementById("welcome-info"),
       IP = ipStore.result.ip || "未知";
-    let dist = NaoKuo.getDistance(31.473331,104.756915, ipStore.result.location.lng, ipStore.result.location.lat),
+    let dist = NaoKuo.getDistance(104.77, 31.48, ipStore.result.location.lng, ipStore.result.location.lat),
       address,
       welcome_info;
     //根据国家、省份、城市信息自定义欢迎语
