@@ -3,7 +3,7 @@
     // --- 主要配置 ---
     const anzhiyuPlayerConfig = {
         apiBaseUrl: "https://api.qcxz.ink/",    //https://api.injahow.cn/meting/
-        defaultPlaylistId: "14205446722",  
+        defaultPlaylistId: "17473221422",  
         defaultServer: "netease",
         defaultCoverArt: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
         placeholderId: "custom-music-player-placeholder",
