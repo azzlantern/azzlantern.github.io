@@ -1,0 +1,745 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记 | 槿鸢茶屋</title><meta name="keywords" content="思科"><meta name="author" content="槿鸢"><meta name="copyright" content="槿鸢"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记"><meta name="application-name" content="Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记"><meta property="og:url" content="https://azzlantern.github.io/2025/11/26/Packet-Tracer%E4%BC%81%E4%B8%9A%E7%BA%A7VLAN-OSPF-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E4%B8%BB%E5%B9%B2%E4%BA%92%E9%80%9A%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/index.html"><meta property="og:site_name" content="槿鸢茶屋"><meta property="og:description" content="前言原本以为这次折腾在了解了不懂的知识之后会容易一些,结果一折腾就花了好多时间,期间遇到各种问题,最终才把整个拓扑和配置理顺。这里把最终的配置笔记整理出来,方便参考😭。 刚开始把拓扑图做出来拿去喂AI,然后它让我把聚合接口弄成三层口,结果折腾了好久,就是卡在PC能ping通VLAN网关,但跨VLA"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://img.103028.xyz/blog/net1/bg.webp"><meta property="article:author" content="槿鸢"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://img.103028.xyz/blog/net1/bg.webp"><meta name="description" content="前言原本以为这次折腾在了解了不懂的知识之后会容易一些,结果一折腾就花了好多时间,期间遇到各种问题,最终才把整个拓扑和配置理顺。这里把最终的配置笔记整理出来,方便参考😭。 刚开始把拓扑图做出来拿去喂AI,然后它让我把聚合接口弄成三层口,结果折腾了好久,就是卡在PC能ping通VLAN网关,但跨VLA"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://azzlantern.github.io/2025/11/26/Packet-Tracer%E4%BC%81%E4%B8%9A%E7%BA%A7VLAN-OSPF-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E4%B8%BB%E5%B9%B2%E4%BA%92%E9%80%9A%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/"><link rel="preconnect" href="//cdn.cbd.int"><link rel="preconnect" href="//busuanzi.ibruce.info"><meta name="google-site-verification" content="xxx"><meta name="baidu-site-verification" content="code-xxx"><meta name="msvalidate.01" content="xxx"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"tianli","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"RBQQPsO0VYv","Referer":"https://tianli0.top/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好，欢迎光临槿鸢茶屋🌙","list":[{"greeting":"夜深了，早点休息，晚安好梦🌌","startTime":0,"endTime":5},{"greeting":"早安呀☀️ 新的一天也要元气满满！","startTime":6,"endTime":9},{"greeting":"上午好🌿 喝杯茶，开启高效的一天吧～","startTime":10,"endTime":10},{"greeting":"11点啦🍵 午饭时间快到咯，记得补充能量～","startTime":11,"endTime":11},{"greeting":"午安🌸 午后阳光正好，来杯茶小憩一下吧～","startTime":12,"endTime":14},{"greeting":"下午好🌼 今天也在努力生活的你真棒！","startTime":14,"endTime":18},{"greeting":"傍晚时分🌇 给自己点个赞，准备享受美食吧🍱","startTime":19,"endTime":19},{"greeting":"夜色温柔🌙 愿你在槿鸢茶屋找到片刻宁静～","startTime":20,"endTime":24}]},
+  twikooEnvId: 'https://twikoo.ipox.cn/',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: {"apiurl":null},
+  navMusic: true,
+  mainTone: {"mode":"api","api":"https://imgapi.103028.xyz/api?img=","cover_change":true},
+  authorStatus: {"skills":["🕊️ 咕咕咕"]},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: 槿鸢","link":"链接: ","source":"来源: 槿鸢茶屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: {"enable":true,"delay":100,"shiftDelay":200},
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: '槿鸢茶屋',
+  title: 'Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记',
+  postAI: '',
+  pageFillDescription: '前言, 需要了解的核心知识点, 1. VLAN与交换机基础, 2. 多层交换与主干聚合, 3. Trunk链路x2FVLAN透传, 4. OSPF动态路由, 5. 静态路由, 6. 全网三层互通与跨VLAN路由, 常见问题与解决方法, 1. Trunk口x2FVLAN未active导致跨VLAN不通, 2. 主干聚合端口(Port-channel)downx2Fdown或suspended, 3. VLAN网关、PC地址x2F掩码x2F网关配置错误, 4. OSPF中发布了没有IP的主干聚合网段, 5. Packet Tracer收敛x2FARPx2FMAC表未及时刷新, 6. 聚合组L2x2FL3属性不匹配命令拒绝, 7. OSPF邻居关系x2F路由收敛问题, 拓扑结构概览, 需要的设备, VLAN划分, IP地址分配, VLAN10网段, VLAN20网段, S1-S2互联网段, R0-R1串口网段, R1 Gi0x2F0(外网), 各设备配置代码, S1(三层汇聚x2F分布交换机), S2(三层汇聚x2F分布交换机), S3(接入交换机), S4(接入交换机), R0（核心路由器）, R1（外部路由器）, 使用说明 amp 核心结构, 总结前言原本以为这次折腾在了解了不懂的知识之后会容易一些结果一折腾就花了好多时间期间遇到各种问题最终才把整个拓扑和配置理顺这里把最终的配置笔记整理出来方便参考刚开始把拓扑图做出来拿去喂然后它让我把聚合接口弄成三层口结果折腾了好久就是卡在能通网关但跨不通后来才发现是给的建议不对聚合口必须是二层口才能透传后来又遇到各种问题下面总结一下常见问题和解决方法方便参考都是血的教训我熬到半夜两点都想不通为什么得亏第二天我问朋友和老师都说应该把聚合口也弄成模式需要了解的核心知识点与交换机基础划分不同划归不同提升安全性隔离广播域二层交换机端口分配与口配置技术实现三层网关多层交换与主干聚合三层交换机的启用以及三层接口网关分配主干链路聚合实现高可用多链路带宽叠加聚合组成员口参数一致性配置链路透传接口封装多允许与在接口的配置接入交换机与汇聚交换机连接动态路由区域零配置多交换机路由器动态互联与路由自动学习邻居关系路由表收敛静态路由之间静态路由互通边界和核心路由器回程缺省路由设置全网三层互通与跨路由间路由和主干园区数据跨流通实验交换路由混合环境下端到端包转发和路径管理常见问题与解决方法口未导致跨不通问题现象口允许但另一端交换机没创建导致和口未对应流量首跳丢包解决方法两端都必须创建并激活所有要透传的一步步用查状态主干聚合端口或问题现象始终或口组参数不兼容报错主要原因聚合成员口和属性不一致有或混用遗留解决方法用清空所有及成员口重新统一配置聚合成员口与全部参数封装必须一致网关地址掩码网关配置错误问题现象能通本地网关但不能跨互通常见原因网关或子网掩码填错解决方法查设置确保网关是正确地址子网掩码标准中发布了没有的主干聚合网段问题现象发布了的网段但已无引起收敛警告冗余解决方法删除无接口的声明只发布实际三层口收敛表未及时刷新问题现象明明配置都对但包还是不通解决方法多次重启模拟器清空和表等仿真器收敛聚合组属性不匹配命令拒绝问题现象操作报与不一致解决方法用和把所有成员口属性清空再一步步重新配置为邻居关系路由收敛问题问题现象邻居不或路由表不互通解决方法检查是否只发布有接口网段确保接口无冲突拓扑结构概览三层汇聚三层汇聚接入交换接入交换外网需要的设备台三层交换机可以用或台二层交换机台路由器多台外网划分地址分配网段网关网段网关互联网段串口网段外网外网各设备配置代码三层汇聚分布交换机功能启用三层交换主干聚合下联配置网关只发布互联网段启用三层路由功能配置聚合接口允许和通过使用封装设置为模式配置上联到的三层口关闭二层功能变为三层路由口配置地址批量配置和允许和通过使用封装设置为模式加入聚合组主动模式配置下联到的口允许和通过使用封装设置为模式配置的网关网关启用进程记录邻居状态变化发布到的互联网段发布网段三层汇聚分布交换机功能与结构镜像相似互联网关主干聚合口启用三层路由功能配置聚合接口允许和通过使用封装设置为模式配置上联到的三层口关闭二层功能变为三层路由口配置地址批量配置和允许和通过使用封装设置为模式加入聚合组主动模式配置下联到的口允许和通过使用封装设置为模式配置的网关网关启用进程记录邻居状态变化发布到的互联网段发布网段接入交换机功能上联个口接配置上联到的口允许和通过使用封装设置为模式批量配置接入口将端口划入设置为模式接入交换机功能上联个口接配置上联到的口允许和通过使用封装设置为模式批量配置接入口将端口划入设置为模式核心路由器功能与汇聚交换机互联三层口主干动态路由串口与互联实现园区与外网的数据交互运行动态路由同时静态路由转发外网访问主干三层互联接口串口对接外部路由器启用动态路由并注入静态路由指向外网的静态路由外部路由器功能串口与对接实现与园区互通外网的网关接口静态路由回程简化建议可只配置一条默认静态路由外网接口连接等外部终端串口对接静态路由回程每个内部网段分别配置或可简化为一条默认路由简化写法推荐等效于上面多条静态路由使用说明核心结构关键配置要点主干聚合下联口参数必须两端完全一致所有透传都需本地创建汇聚层三层交换机负责网关向核心路由器发布网段和互联网段核心路由与外部路由器间静态路由互通适配企业外网分区园区网络接入层交换机为标准二层结构只负责端口分配和搬帧网关留给汇聚层总结通过这次企业级静态路由主干互通的折腾深入理解了划分三层交换机配置主干聚合链路动态路由和静态路由等核心网络技术遇到的问题和解决方法也让我积累了宝贵的实战经验希望这份笔记能帮助到正在学习网络配置的朋友们想这门课平时分满分的同学们避免踩坑配置确实很复杂很折磨但只要理清思路逐步排查问题就能实现网络互通核心经验总结聚合口必须配置为二层模式才能透传两端交换机必须都创建相同的使用检查状态遇到问题时使用清空配置重来耐心等待收敛必要时重启模拟器',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-11-26 16:44:58',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/font.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/customschedule.css"><meta name="generator" content="Hexo 7.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://img.picgo.net/2024/11/21/tx4a3cb39970cebb8f.jpg"><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="https://azzlantern.github.io" title="博客"><img class="back-menu-item-icon" src="/img/favicon.ico" alt="博客"><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://103028.xyz" title="URL短链接"><img class="back-menu-item-icon" src="/img/URL.png" alt="URL短链接"><span class="back-menu-item-text">URL短链接</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">槿鸢茶屋</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=2803167371&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button" title="随机前往一个开往项目网站"><a class="site-page" onclick="anzhiyu.totraveling()" title="随机前往一个开往项目网站" href="javascript:void(0);" rel="external nofollow" data-pjax-state="external"><i class="anzhiyufont anzhiyu-icon-train"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">音乐</div><span class="author-content-item-title">灵魂的碰撞💥</span></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">十一月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/10/"><span class="card-archive-list-date">十月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/04/"><span class="card-archive-list-date">四月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/02/"><span class="card-archive-list-date">二月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">十一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">十月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div><div class="console-btn-item" id="consoleKeyboard" onclick="anzhiyu.keyboardToggle()" title="快捷键开关"><a class="keyboard-switch"><i class="anzhiyufont anzhiyu-icon-keyboard"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url">网络</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E6%80%9D%E7%A7%91/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>思科</span></a></span></div></div><h1 class="post-title" itemprop="name headline">Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2025-11-26T08:39:24.000Z" title="发表于 2025-11-26 16:39:24">2025-11-26</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2025-11-26T08:44:58.183Z" title="更新于 2025-11-26 16:44:58">2025-11-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字数总计:</span><span class="word-count" title="文章字数">2.9k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为成都"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>成都</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://img.103028.xyz/blog/net1/bg.webp"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope="" itemtype="https://azzlantern.github.io/2025/11/26/Packet-Tracer%E4%BC%81%E4%B8%9A%E7%BA%A7VLAN-OSPF-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E4%B8%BB%E5%B9%B2%E4%BA%92%E9%80%9A%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/"><header><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url">网络</a><a href="/tags/%E6%80%9D%E7%A7%91/" tabindex="-1" itemprop="url">思科</a><h1 id="CrawlerTitle" itemprop="name headline">Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记</h1><span itemprop="author" itemscope="" itemtype="http://schema.org/Person">槿鸢</span><time itemprop="dateCreated datePublished" datetime="2025-11-26T08:39:24.000Z" title="发表于 2025-11-26 16:39:24">2025-11-26</time><time itemprop="dateCreated datePublished" datetime="2025-11-26T08:44:58.183Z" title="更新于 2025-11-26 16:44:58">2025-11-26</time></header><div id="postchat_postcontent"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>原本以为这次折腾在了解了不懂的知识之后会容易一些,结果一折腾就花了好多时间,期间遇到各种问题,最终才把整个拓扑和配置理顺。这里把最终的配置笔记整理出来,方便参考😭。</p>
+<p>刚开始把拓扑图做出来拿去喂AI,然后它让我把聚合接口弄成三层口,结果折腾了好久,就是卡在PC能ping通VLAN网关,但跨VLAN不通。后来才发现是AI给的建议不对,<strong>聚合口必须是二层Trunk口才能透传VLAN</strong>。后来又遇到各种问题,下面总结一下常见问题和解决方法,方便参考。都是血的教训,我熬到半夜两点都想不通为什么,得亏第二天我问朋友和老师都说应该把聚合口也弄成Trunk模式😭😭😭。</p>
+<hr>
+<h2 id="需要了解的核心知识点"><a href="#需要了解的核心知识点" class="headerlink" title="需要了解的核心知识点"></a>需要了解的核心知识点</h2><h3 id="1-VLAN与交换机基础"><a href="#1-VLAN与交换机基础" class="headerlink" title="1. VLAN与交换机基础"></a>1. VLAN与交换机基础</h3><ul>
+<li>VLAN划分:不同PC划归不同VLAN,提升安全性、隔离广播域</li>
+<li>二层交换机端口分配与Trunk口配置</li>
+<li>VLAN SVI(Switch Virtual Interface)技术,实现三层网关</li>
+</ul>
+<h3 id="2-多层交换与主干聚合"><a href="#2-多层交换与主干聚合" class="headerlink" title="2. 多层交换与主干聚合"></a>2. 多层交换与主干聚合</h3><ul>
+<li>三层交换机的ip routing启用,以及三层接口、SVI网关分配</li>
+<li>主干链路聚合(EtherChannel/LACP),实现高可用、多链路带宽叠加</li>
+<li>聚合组成员口参数一致性配置</li>
+</ul>
+<h3 id="3-Trunk链路-VLAN透传"><a href="#3-Trunk链路-VLAN透传" class="headerlink" title="3. Trunk链路/VLAN透传"></a>3. Trunk链路/VLAN透传</h3><ul>
+<li>Trunk接口dot1q封装</li>
+<li>多VLAN允许与active在Trunk接口的配置</li>
+<li>接入交换机与汇聚交换机Trunk连接</li>
+</ul>
+<h3 id="4-OSPF动态路由"><a href="#4-OSPF动态路由" class="headerlink" title="4. OSPF动态路由"></a>4. OSPF动态路由</h3><ul>
+<li>OSPF区域零配置</li>
+<li>多交换机/路由器动态互联与路由自动学习</li>
+<li>OSPF邻居关系、路由表收敛</li>
+</ul>
+<h3 id="5-静态路由"><a href="#5-静态路由" class="headerlink" title="5. 静态路由"></a>5. 静态路由</h3><ul>
+<li>R0、R1之间静态路由互通</li>
+<li>边界和核心路由器回程、缺省路由设置</li>
+</ul>
+<h3 id="6-全网三层互通与跨VLAN路由"><a href="#6-全网三层互通与跨VLAN路由" class="headerlink" title="6. 全网三层互通与跨VLAN路由"></a>6. 全网三层互通与跨VLAN路由</h3><ul>
+<li>VLAN间路由和主干园区数据跨VLAN流通实验</li>
+<li>交换/路由混合环境下端到端包转发和路径管理</li>
+</ul>
+<hr>
+<h2 id="常见问题与解决方法"><a href="#常见问题与解决方法" class="headerlink" title="常见问题与解决方法"></a>常见问题与解决方法</h2><h3 id="1-Trunk口-VLAN未active导致跨VLAN不通"><a href="#1-Trunk口-VLAN未active导致跨VLAN不通" class="headerlink" title="1. Trunk口/VLAN未active导致跨VLAN不通"></a>1. Trunk口/VLAN未active导致跨VLAN不通</h3><p><strong>问题现象:</strong><br>Trunk口允许VLAN10/20,但另一端交换机没创建VLAN10,导致Port-channel和Trunk口未active对应VLAN,流量首跳丢包。</p>
+<p><strong>解决方法:</strong></p>
+<ul>
+<li>两端都必须创建并激活所有要透传的VLAN</li>
+<li>一步步用 <code>show interfaces trunk</code> 查VLAN active状态</li>
+</ul>
+<h3 id="2-主干聚合端口-Port-channel-down-down或suspended"><a href="#2-主干聚合端口-Port-channel-down-down或suspended" class="headerlink" title="2. 主干聚合端口(Port-channel)down/down或suspended"></a>2. 主干聚合端口(Port-channel)down/down或suspended</h3><p><strong>问题现象:</strong><br>Port-channel始终down,或口组”参数不兼容”报错。</p>
+<p><strong>主要原因:</strong><br>聚合成员口和Port-channel属性不一致,有no switchport或access/trunk混用遗留。</p>
+<p><strong>解决方法:</strong></p>
+<ul>
+<li>用 <code>default interface</code> 清空所有Port-channel及成员口,重新统一配置</li>
+<li>聚合成员口与Port-channel全部参数(Trunk、allowed VLAN、封装)必须一致</li>
+</ul>
+<h3 id="3-VLAN网关、PC地址-掩码-网关配置错误"><a href="#3-VLAN网关、PC地址-掩码-网关配置错误" class="headerlink" title="3. VLAN网关、PC地址/掩码/网关配置错误"></a>3. VLAN网关、PC地址/掩码/网关配置错误</h3><p><strong>问题现象:</strong><br>PC能ping通本地网关,但不能跨VLAN互通。</p>
+<p><strong>常见原因:</strong><br>PC网关或子网掩码填错。</p>
+<p><strong>解决方法:</strong><br>查PC设置,确保网关是正确VLAN SVI地址,子网掩码标准。</p>
+<h3 id="4-OSPF中发布了没有IP的主干聚合网段"><a href="#4-OSPF中发布了没有IP的主干聚合网段" class="headerlink" title="4. OSPF中发布了没有IP的主干聚合网段"></a>4. OSPF中发布了没有IP的主干聚合网段</h3><p><strong>问题现象:</strong><br>OSPF发布了Port-channel的网段,但Port-channel已无IP,引起OSPF收敛警告/冗余。</p>
+<p><strong>解决方法:</strong><br>删除无IP接口的network声明,只发布实际IP三层口。</p>
+<h3 id="5-Packet-Tracer收敛-ARP-MAC表未及时刷新"><a href="#5-Packet-Tracer收敛-ARP-MAC表未及时刷新" class="headerlink" title="5. Packet Tracer收敛/ARP/MAC表未及时刷新"></a>5. Packet Tracer收敛/ARP/MAC表未及时刷新</h3><p><strong>问题现象:</strong><br>明明配置都对,但包还是不通。</p>
+<p><strong>解决方法:</strong><br>多次Fast Forward/重启模拟器,清空ARP和MAC表,等仿真器收敛。</p>
+<h3 id="6-聚合组L2-L3属性不匹配-命令拒绝"><a href="#6-聚合组L2-L3属性不匹配-命令拒绝" class="headerlink" title="6. 聚合组L2/L3属性不匹配,命令拒绝"></a>6. 聚合组L2/L3属性不匹配,命令拒绝</h3><p><strong>问题现象:</strong><br>channel-group操作报”L2与L3不一致”。</p>
+<p><strong>解决方法:</strong><br>用 <code>default interface port-channel 1</code> 和 <code>default interface fa0/x</code> 把所有成员口属性清空,再一步步重新配置为Trunk、channel-group。</p>
+<h3 id="7-OSPF邻居关系-路由收敛问题"><a href="#7-OSPF邻居关系-路由收敛问题" class="headerlink" title="7. OSPF邻居关系/路由收敛问题"></a>7. OSPF邻居关系/路由收敛问题</h3><p><strong>问题现象:</strong><br>OSPF邻居不FULL或路由表不互通。</p>
+<p><strong>解决方法:</strong><br>检查是否只发布有IP接口网段,确保接口up/up、OSPF Router ID无冲突。</p>
+<hr>
+<h2 id="拓扑结构概览"><a href="#拓扑结构概览" class="headerlink" title="拓扑结构概览"></a>拓扑结构概览</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/net1/tuopu.png" alt="拓扑图"></p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> +--------+          +--------+</span><br><span class="line"> |   S1   |----------|   S2   |</span><br><span class="line"> |(三层汇聚)|          |(三层汇聚)|</span><br><span class="line"> +--------+          +--------+</span><br><span class="line">    |  |                 |  |</span><br><span class="line">  Fa0/2 Fa0/4         Fa0/2 Fa0/4</span><br><span class="line">    |  |                 |  |</span><br><span class="line"> +--------+          +--------+</span><br><span class="line"> |   S3   |          |   S4   |</span><br><span class="line"> |(接入交换)|          |(接入交换)|</span><br><span class="line"> +--------+          +--------+</span><br><span class="line">  |  |  |             |  |  |</span><br><span class="line">PC1 PC2 PC3        PC4 PC5 PC6</span><br><span class="line"></span><br><span class="line">S1 Fa0/1 &lt;--&gt; R0 Gi0/0</span><br><span class="line">S2 Fa0/1 &lt;--&gt; R0 Gi0/1</span><br><span class="line"></span><br><span class="line">R0 Se0/1/0 &lt;--&gt; R1 Se0/1/0</span><br><span class="line">R1 Gi0/0 (外网)</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="需要的设备"><a href="#需要的设备" class="headerlink" title="需要的设备"></a>需要的设备</h3><ul>
+<li>2台三层交换机(S1、S2)可以用3560或3750</li>
+<li>2台二层交换机(S3、S4)</li>
+<li>2台路由器(R0、R1)</li>
+<li>多台PC(PC1-PC6,外网PC0)</li>
+</ul>
+<h3 id="VLAN划分"><a href="#VLAN划分" class="headerlink" title="VLAN划分"></a>VLAN划分</h3><ul>
+<li><strong>VLAN10:</strong> PC1-PC3</li>
+<li><strong>VLAN20:</strong> PC4-PC6</li>
+</ul>
+<h3 id="IP地址分配"><a href="#IP地址分配" class="headerlink" title="IP地址分配"></a>IP地址分配</h3><h4 id="VLAN10网段"><a href="#VLAN10网段" class="headerlink" title="VLAN10网段"></a>VLAN10网段</h4><ul>
+<li>S1 Vlan10网关:192.168.1.1</li>
+<li>PC1:192.168.1.10</li>
+<li>PC2:192.168.1.11</li>
+<li>PC3:192.168.1.12</li>
+</ul>
+<h4 id="VLAN20网段"><a href="#VLAN20网段" class="headerlink" title="VLAN20网段"></a>VLAN20网段</h4><ul>
+<li>S2 Vlan20网关:192.168.2.1</li>
+<li>PC4:192.168.2.10</li>
+<li>PC5:192.168.2.11</li>
+<li>PC6:192.168.2.12</li>
+</ul>
+<h4 id="S1-S2互联网段"><a href="#S1-S2互联网段" class="headerlink" title="S1-S2互联网段"></a>S1-S2互联网段</h4><ul>
+<li>S1 Fa0/1:192.168.6.1</li>
+<li>S2 Fa0/1:192.168.7.1</li>
+<li>R0 Gi0/0:192.168.6.2</li>
+<li>R0 Gi0/1:192.168.7.2</li>
+</ul>
+<h4 id="R0-R1串口网段"><a href="#R0-R1串口网段" class="headerlink" title="R0-R1串口网段"></a>R0-R1串口网段</h4><ul>
+<li>R0 Se0/1/0:192.168.8.1</li>
+<li>R1 Se0/1/0:192.168.8.2</li>
+</ul>
+<h4 id="R1-Gi0-0-外网"><a href="#R1-Gi0-0-外网" class="headerlink" title="R1 Gi0/0(外网)"></a>R1 Gi0/0(外网)</h4><ul>
+<li>R1 Gi0/0:192.168.9.1</li>
+<li>外网PC0:192.168.9.2</li>
+</ul>
+<hr>
+<h2 id="各设备配置代码"><a href="#各设备配置代码" class="headerlink" title="各设备配置代码"></a>各设备配置代码</h2><h3 id="S1-三层汇聚-分布交换机"><a href="#S1-三层汇聚-分布交换机" class="headerlink" title="S1(三层汇聚/分布交换机)"></a>S1(三层汇聚/分布交换机)</h3><p><strong>功能:</strong></p>
+<ul>
+<li>启用三层交换</li>
+<li>主干聚合/下联Trunk配置</li>
+<li>VLAN10网关</li>
+<li>OSPF只发布互联、VLAN10网段</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">ip routing                                      ! 启用三层路由功能</span><br><span class="line"></span><br><span class="line">interface Port-channel1                         ! 配置聚合接口</span><br><span class="line"> switchport trunk allowed vlan 10,20           ! 允许VLAN10和20通过</span><br><span class="line"> switchport trunk encapsulation dot1q          ! 使用802.1Q封装</span><br><span class="line"> switchport mode trunk                          ! 设置为Trunk模式</span><br><span class="line"></span><br><span class="line">interface FastEthernet0/1                       ! 配置上联到R0的三层口</span><br><span class="line"> no switchport                                  ! 关闭二层功能,变为三层路由口</span><br><span class="line"> ip address 192.168.6.1 255.255.255.252        ! 配置IP地址</span><br><span class="line"></span><br><span class="line">interface range FastEthernet0/2, FastEthernet0/4  ! 批量配置Fa0/2和Fa0/4</span><br><span class="line"> switchport trunk allowed vlan 10,20           ! 允许VLAN10和20通过</span><br><span class="line"> switchport trunk encapsulation dot1q          ! 使用802.1Q封装</span><br><span class="line"> switchport mode trunk                          ! 设置为Trunk模式</span><br><span class="line"> channel-group 1 mode active                    ! 加入聚合组1,LACP主动模式</span><br><span class="line"></span><br><span class="line">interface FastEthernet0/3                       ! 配置下联到S3的Trunk口</span><br><span class="line"> switchport trunk allowed vlan 10,20           ! 允许VLAN10和20通过</span><br><span class="line"> switchport trunk encapsulation dot1q          ! 使用802.1Q封装</span><br><span class="line"> switchport mode trunk                          ! 设置为Trunk模式</span><br><span class="line"></span><br><span class="line">interface Vlan10                                ! 配置VLAN10的SVI网关</span><br><span class="line"> ip address 192.168.1.1 255.255.255.0          ! VLAN10网关IP</span><br><span class="line"></span><br><span class="line">router ospf 1                                   ! 启用OSPF进程1</span><br><span class="line"> log-adjacency-changes                          ! 记录邻居状态变化</span><br><span class="line"> network 192.168.6.0 0.0.0.3 area 0            ! 发布S1到R0的互联网段</span><br><span class="line"> network 192.168.1.0 0.0.0.255 area 0          ! 发布VLAN10网段</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<h3 id="S2-三层汇聚-分布交换机"><a href="#S2-三层汇聚-分布交换机" class="headerlink" title="S2(三层汇聚/分布交换机)"></a>S2(三层汇聚/分布交换机)</h3><p><strong>功能:</strong></p>
+<ul>
+<li>与S1结构镜像相似,互联Fa0/1</li>
+<li>VLAN20网关</li>
+<li>主干聚合/Trunk口</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">ip routing                                      ! 启用三层路由功能</span><br><span class="line"></span><br><span class="line">interface Port-channel1                         ! 配置聚合接口</span><br><span class="line"> switchport trunk allowed vlan 10,20           ! 允许VLAN10和20通过</span><br><span class="line"> switchport trunk encapsulation dot1q          ! 使用802.1Q封装</span><br><span class="line"> switchport mode trunk                          ! 设置为Trunk模式</span><br><span class="line"></span><br><span class="line">interface FastEthernet0/1                       ! 配置上联到R0的三层口</span><br><span class="line"> no switchport                                  ! 关闭二层功能,变为三层路由口</span><br><span class="line"> ip address 192.168.7.1 255.255.255.252        ! 配置IP地址</span><br><span class="line"></span><br><span class="line">interface range FastEthernet0/2, FastEthernet0/4  ! 批量配置Fa0/2和Fa0/4</span><br><span class="line"> switchport trunk allowed vlan 10,20           ! 允许VLAN10和20通过</span><br><span class="line"> switchport trunk encapsulation dot1q          ! 使用802.1Q封装</span><br><span class="line"> switchport mode trunk                          ! 设置为Trunk模式</span><br><span class="line"> channel-group 1 mode active                    ! 加入聚合组1,LACP主动模式</span><br><span class="line"></span><br><span class="line">interface FastEthernet0/3                       ! 配置下联到S4的Trunk口</span><br><span class="line"> switchport trunk allowed vlan 10,20           ! 允许VLAN10和20通过</span><br><span class="line"> switchport trunk encapsulation dot1q          ! 使用802.1Q封装</span><br><span class="line"> switchport mode trunk                          ! 设置为Trunk模式</span><br><span class="line"></span><br><span class="line">interface Vlan20                                ! 配置VLAN20的SVI网关</span><br><span class="line"> ip address 192.168.2.1 255.255.255.0          ! VLAN20网关IP</span><br><span class="line"></span><br><span class="line">router ospf 1                                   ! 启用OSPF进程1</span><br><span class="line"> log-adjacency-changes                          ! 记录邻居状态变化</span><br><span class="line"> network 192.168.7.0 0.0.0.3 area 0            ! 发布S2到R0的互联网段</span><br><span class="line"> network 192.168.2.0 0.0.0.255 area 0          ! 发布VLAN20网段</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<h3 id="S3-接入交换机"><a href="#S3-接入交换机" class="headerlink" title="S3(接入交换机)"></a>S3(接入交换机)</h3><p><strong>功能:</strong></p>
+<ul>
+<li>Trunk上联</li>
+<li>3个PC口接VLAN10</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">interface FastEthernet0/1                       ! 配置上联到S1的Trunk口</span><br><span class="line"> switchport trunk allowed vlan 10,20           ! 允许VLAN10和20通过</span><br><span class="line"> switchport trunk encapsulation dot1q          ! 使用802.1Q封装</span><br><span class="line"> switchport mode trunk                          ! 设置为Trunk模式</span><br><span class="line"></span><br><span class="line">interface range FastEthernet0/2, FastEthernet0/3, FastEthernet0/4  ! 批量配置接入口</span><br><span class="line"> switchport access vlan 10                      ! 将端口划入VLAN10</span><br><span class="line"> switchport mode access                         ! 设置为Access模式</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<h3 id="S4-接入交换机"><a href="#S4-接入交换机" class="headerlink" title="S4(接入交换机)"></a>S4(接入交换机)</h3><p><strong>功能:</strong></p>
+<ul>
+<li>Trunk上联</li>
+<li>3个PC口接VLAN20</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">interface FastEthernet0/1                       ! 配置上联到S2的Trunk口</span><br><span class="line"> switchport trunk allowed vlan 10,20           ! 允许VLAN10和20通过</span><br><span class="line"> switchport trunk encapsulation dot1q          ! 使用802.1Q封装</span><br><span class="line"> switchport mode trunk                          ! 设置为Trunk模式</span><br><span class="line"></span><br><span class="line">interface range FastEthernet0/2, FastEthernet0/3, FastEthernet0/4  ! 批量配置接入口</span><br><span class="line"> switchport access vlan 20                      ! 将端口划入VLAN20</span><br><span class="line"> switchport mode access                         ! 设置为Access模式</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<h3 id="R0（核心路由器）"><a href="#R0（核心路由器）" class="headerlink" title="R0（核心路由器）"></a>R0（核心路由器）</h3><p><strong>功能:</strong></p>
+<ul>
+<li>与 S1/S2 汇聚交换机互联三层口（主干动态路由）</li>
+<li>串口与 R1 互联，实现园区与外网的数据交互</li>
+<li>运行 OSPF 动态路由，同时静态路由转发外网访问</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">! S1/S2 主干三层互联接口</span><br><span class="line">interface GigabitEthernet0/0</span><br><span class="line"> ip address 192.168.6.2 255.255.255.252</span><br><span class="line"></span><br><span class="line">interface GigabitEthernet0/1</span><br><span class="line"> ip address 192.168.7.2 255.255.255.252</span><br><span class="line"></span><br><span class="line">! 串口对接 R1（外部路由器）</span><br><span class="line">interface Serial0/1/0</span><br><span class="line"> ip address 192.168.8.1 255.255.255.252</span><br><span class="line"> clock rate 64000</span><br><span class="line"></span><br><span class="line">! 启用 OSPF 动态路由，并注入静态路由</span><br><span class="line">router ospf 1</span><br><span class="line"> log-adjacency-changes</span><br><span class="line"> redistribute static subnets</span><br><span class="line"> network 192.168.6.0 0.0.0.3 area 0</span><br><span class="line"> network 192.168.7.0 0.0.0.3 area 0</span><br><span class="line"></span><br><span class="line">! 指向外网（PC0）的静态路由</span><br><span class="line">ip route 192.168.9.0 255.255.255.0 192.168.8.2</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<h3 id="R1（外部路由器）"><a href="#R1（外部路由器）" class="headerlink" title="R1（外部路由器）"></a>R1（外部路由器）</h3><p><strong>功能:</strong></p>
+<ul>
+<li>串口与 R0 对接，实现与园区互通</li>
+<li>外网（PC0）的网关接口</li>
+<li>静态路由回程（简化建议：可只配置一条默认静态路由）</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">! 外网接口（连接 PC0 等外部终端）</span><br><span class="line">interface GigabitEthernet0/0</span><br><span class="line"> ip address 192.168.9.1 255.255.255.0</span><br><span class="line"></span><br><span class="line">! 串口对接 R0</span><br><span class="line">interface Serial0/1/0</span><br><span class="line"> ip address 192.168.8.2 255.255.255.252</span><br><span class="line"></span><br><span class="line">! 静态路由回程（每个内部网段分别配置，或可简化为一条默认路由）</span><br><span class="line">ip route 192.168.6.0 255.255.255.252 192.168.8.1</span><br><span class="line">ip route 192.168.7.0 255.255.255.252 192.168.8.1</span><br><span class="line">ip route 192.168.1.0 255.255.255.0 192.168.8.1</span><br><span class="line">ip route 192.168.2.0 255.255.255.0 192.168.8.1</span><br><span class="line"></span><br><span class="line">! —— 简化写法（推荐，等效于上面多条静态路由）:</span><br><span class="line">! ip route 0.0.0.0 0.0.0.0 192.168.8.1</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<h2 id="使用说明-核心结构"><a href="#使用说明-核心结构" class="headerlink" title="使用说明 &amp; 核心结构"></a>使用说明 &amp; 核心结构</h2><p><strong>关键配置要点:</strong></p>
+<ol>
+<li><strong>主干聚合、下联、Trunk口参数必须两端完全一致,所有透传VLAN都需本地创建</strong></li>
+<li><strong>汇聚层三层交换机负责网关(SVI),OSPF向核心路由器发布VLAN网段和互联网段</strong></li>
+<li><strong>核心路由与外部路由器间静态路由互通,适配企业外网、分区园区网络</strong></li>
+<li><strong>接入层交换机为标准二层结构,只负责VLAN端口分配和Trunk搬帧,网关留给汇聚层</strong></li>
+</ol>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这次Packet Tracer企业级VLAN/OSPF/静态路由主干互通的折腾,深入理解了VLAN划分、三层交换机配置、主干聚合、Trunk链路、OSPF动态路由和静态路由等核心网络技术。遇到的问题和解决方法也让我积累了宝贵的实战经验。</p>
+<p>希望这份笔记能帮助到正在学习网络配置的朋友们(想这门课平时分满分的同学们),避免踩坑。配置确实很复杂很折磨,但只要理清思路,逐步排查问题,就能实现网络互通。</p>
+<p><strong>核心经验总结:</strong></p>
+<ul>
+<li>✅ 聚合口必须配置为二层Trunk模式才能透传VLAN</li>
+<li>✅ 两端交换机必须都创建相同的VLAN</li>
+<li>✅ 使用 <code>show interfaces trunk</code> 检查VLAN状态</li>
+<li>✅ 遇到问题时使用 <code>default interface</code> 清空配置重来</li>
+<li>✅ 耐心等待Packet Tracer收敛,必要时重启模拟器</li>
+</ul>
+</div></article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/tx.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/tx.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">槿鸢</div><div class="post-copyright__author_desc">咕咕咕</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://azzlantern.github.io/2025/11/26/Packet-Tracer%E4%BC%81%E4%B8%9A%E7%BA%A7VLAN-OSPF-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E4%B8%BB%E5%B9%B2%E4%BA%92%E9%80%9A%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://azzlantern.github.io/2025/11/26/Packet-Tracer%E4%BC%81%E4%B8%9A%E7%BA%A7VLAN-OSPF-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E4%B8%BB%E5%B9%B2%E4%BA%92%E9%80%9A%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/')">Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://azzlantern.github.io/2025/11/26/Packet-Tracer%E4%BC%81%E4%B8%9A%E7%BA%A7VLAN-OSPF-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E4%B8%BB%E5%B9%B2%E4%BA%92%E9%80%9A%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记&amp;url=https://azzlantern.github.io/2025/11/26/Packet-Tracer%E4%BC%81%E4%B8%9A%E7%BA%A7VLAN-OSPF-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E4%B8%BB%E5%B9%B2%E4%BA%92%E9%80%9A%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/&amp;pic=https://img.103028.xyz/blog/net1/bg.webp" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://azzlantern.github.io" target="_blank">槿鸢茶屋</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E6%80%9D%E7%A7%91/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>思科<span class="tagsPageCount">1</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://img.103028.xyz/blog/net1/bg.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2025/11/18/FTP%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/ftp/card_normal.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">FTP服务器安装与配置</div></div></a></div></nav><hr><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="anzhiyufont anzhiyu-icon-comments"></i><span> 评论</span></div><div class="comment-randomInfo"><a onclick="anzhiyu.addRandomCommentInfo()" href="javascript:void(0)">匿名评论</a><a href="/privacy" style="margin-left: 4px">隐私政策</a></div><div class="comment-tips" id="comment-tips"><span>✅ 你无需删除空行，直接评论以获取最佳展示效果</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div><div class="comment-barrage"></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/hecai.gif" alt="status"></div></div><div class="author-info__description"></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">槿鸢</h1><div class="author-info__desc">咕咕咕</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/azzlantern" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/512803414" target="_blank" title="BiliBili"><i class="anzhiyufont anzhiyu-icon-bilibili"></i></a></div></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>公告</span></div><div class="announcement_content"><div id="welcome-info"></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">需要了解的核心知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-VLAN%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%9F%BA%E7%A1%80"><span class="toc-number">2.1.</span> <span class="toc-text">1. VLAN与交换机基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%9A%E5%B1%82%E4%BA%A4%E6%8D%A2%E4%B8%8E%E4%B8%BB%E5%B9%B2%E8%81%9A%E5%90%88"><span class="toc-number">2.2.</span> <span class="toc-text">2. 多层交换与主干聚合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Trunk%E9%93%BE%E8%B7%AF-VLAN%E9%80%8F%E4%BC%A0"><span class="toc-number">2.3.</span> <span class="toc-text">3. Trunk链路/VLAN透传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-OSPF%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">2.4.</span> <span class="toc-text">4. OSPF动态路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">2.5.</span> <span class="toc-text">5. 静态路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%85%A8%E7%BD%91%E4%B8%89%E5%B1%82%E4%BA%92%E9%80%9A%E4%B8%8E%E8%B7%A8VLAN%E8%B7%AF%E7%94%B1"><span class="toc-number">2.6.</span> <span class="toc-text">6. 全网三层互通与跨VLAN路由</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">常见问题与解决方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Trunk%E5%8F%A3-VLAN%E6%9C%AAactive%E5%AF%BC%E8%87%B4%E8%B7%A8VLAN%E4%B8%8D%E9%80%9A"><span class="toc-number">3.1.</span> <span class="toc-text">1. Trunk口/VLAN未active导致跨VLAN不通</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%BB%E5%B9%B2%E8%81%9A%E5%90%88%E7%AB%AF%E5%8F%A3-Port-channel-down-down%E6%88%96suspended"><span class="toc-number">3.2.</span> <span class="toc-text">2. 主干聚合端口(Port-channel)down/down或suspended</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-VLAN%E7%BD%91%E5%85%B3%E3%80%81PC%E5%9C%B0%E5%9D%80-%E6%8E%A9%E7%A0%81-%E7%BD%91%E5%85%B3%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF"><span class="toc-number">3.3.</span> <span class="toc-text">3. VLAN网关、PC地址/掩码/网关配置错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-OSPF%E4%B8%AD%E5%8F%91%E5%B8%83%E4%BA%86%E6%B2%A1%E6%9C%89IP%E7%9A%84%E4%B8%BB%E5%B9%B2%E8%81%9A%E5%90%88%E7%BD%91%E6%AE%B5"><span class="toc-number">3.4.</span> <span class="toc-text">4. OSPF中发布了没有IP的主干聚合网段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Packet-Tracer%E6%94%B6%E6%95%9B-ARP-MAC%E8%A1%A8%E6%9C%AA%E5%8F%8A%E6%97%B6%E5%88%B7%E6%96%B0"><span class="toc-number">3.5.</span> <span class="toc-text">5. Packet Tracer收敛/ARP/MAC表未及时刷新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%81%9A%E5%90%88%E7%BB%84L2-L3%E5%B1%9E%E6%80%A7%E4%B8%8D%E5%8C%B9%E9%85%8D-%E5%91%BD%E4%BB%A4%E6%8B%92%E7%BB%9D"><span class="toc-number">3.6.</span> <span class="toc-text">6. 聚合组L2/L3属性不匹配,命令拒绝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-OSPF%E9%82%BB%E5%B1%85%E5%85%B3%E7%B3%BB-%E8%B7%AF%E7%94%B1%E6%94%B6%E6%95%9B%E9%97%AE%E9%A2%98"><span class="toc-number">3.7.</span> <span class="toc-text">7. OSPF邻居关系/路由收敛问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E7%BB%93%E6%9E%84%E6%A6%82%E8%A7%88"><span class="toc-number">4.</span> <span class="toc-text">拓扑结构概览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E7%9A%84%E8%AE%BE%E5%A4%87"><span class="toc-number">4.1.</span> <span class="toc-text">需要的设备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VLAN%E5%88%92%E5%88%86"><span class="toc-number">4.2.</span> <span class="toc-text">VLAN划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E5%9C%B0%E5%9D%80%E5%88%86%E9%85%8D"><span class="toc-number">4.3.</span> <span class="toc-text">IP地址分配</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VLAN10%E7%BD%91%E6%AE%B5"><span class="toc-number">4.3.1.</span> <span class="toc-text">VLAN10网段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VLAN20%E7%BD%91%E6%AE%B5"><span class="toc-number">4.3.2.</span> <span class="toc-text">VLAN20网段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#S1-S2%E4%BA%92%E8%81%94%E7%BD%91%E6%AE%B5"><span class="toc-number">4.3.3.</span> <span class="toc-text">S1-S2互联网段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#R0-R1%E4%B8%B2%E5%8F%A3%E7%BD%91%E6%AE%B5"><span class="toc-number">4.3.4.</span> <span class="toc-text">R0-R1串口网段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#R1-Gi0-0-%E5%A4%96%E7%BD%91"><span class="toc-number">4.3.5.</span> <span class="toc-text">R1 Gi0/0(外网)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E8%AE%BE%E5%A4%87%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text">各设备配置代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#S1-%E4%B8%89%E5%B1%82%E6%B1%87%E8%81%9A-%E5%88%86%E5%B8%83%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">5.1.</span> <span class="toc-text">S1(三层汇聚/分布交换机)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#S2-%E4%B8%89%E5%B1%82%E6%B1%87%E8%81%9A-%E5%88%86%E5%B8%83%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">5.2.</span> <span class="toc-text">S2(三层汇聚/分布交换机)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#S3-%E6%8E%A5%E5%85%A5%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">5.3.</span> <span class="toc-text">S3(接入交换机)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#S4-%E6%8E%A5%E5%85%A5%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">5.4.</span> <span class="toc-text">S4(接入交换机)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#R0%EF%BC%88%E6%A0%B8%E5%BF%83%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%89"><span class="toc-number">5.5.</span> <span class="toc-text">R0（核心路由器）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#R1%EF%BC%88%E5%A4%96%E9%83%A8%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%89"><span class="toc-number">5.6.</span> <span class="toc-text">R1（外部路由器）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E-%E6%A0%B8%E5%BF%83%E7%BB%93%E6%9E%84"><span class="toc-number">6.</span> <span class="toc-text">使用说明 &amp; 核心结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/11/26/Packet-Tracer%E4%BC%81%E4%B8%9A%E7%BA%A7VLAN-OSPF-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E4%B8%BB%E5%B9%B2%E4%BA%92%E9%80%9A%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/" title="Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/net1/bg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记"></a><div class="content"><a class="title" href="/2025/11/26/Packet-Tracer%E4%BC%81%E4%B8%9A%E7%BA%A7VLAN-OSPF-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E4%B8%BB%E5%B9%B2%E4%BA%92%E9%80%9A%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/" title="Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记">Packet Tracer企业级VLAN/OSPF/静态路由主干互通配置笔记</a><time datetime="2025-11-26T08:39:24.000Z" title="发表于 2025-11-26 16:39:24">2025-11-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/18/FTP%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" title="FTP服务器安装与配置"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/ftp/card_normal.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FTP服务器安装与配置"></a><div class="content"><a class="title" href="/2025/11/18/FTP%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" title="FTP服务器安装与配置">FTP服务器安装与配置</a><time datetime="2025-11-18T07:26:20.000Z" title="发表于 2025-11-18 15:26:20">2025-11-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/18/Apache%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" title="Apache服务器安装与配置"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/apac/card_normal.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Apache服务器安装与配置"></a><div class="content"><a class="title" href="/2025/11/18/Apache%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" title="Apache服务器安装与配置">Apache服务器安装与配置</a><time datetime="2025-11-18T07:17:55.000Z" title="发表于 2025-11-18 15:17:55">2025-11-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/11/DNS%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/" title="DNS服务器配置与管理"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/dns/card_normal.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DNS服务器配置与管理"></a><div class="content"><a class="title" href="/2025/11/11/DNS%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/" title="DNS服务器配置与管理">DNS服务器配置与管理</a><time datetime="2025-11-11T12:42:25.000Z" title="发表于 2025-11-11 20:42:25">2025-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/04/%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86DHCP%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="配置与管理DHCP服务器"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/back/knd1.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="配置与管理DHCP服务器"></a><div class="content"><a class="title" href="/2025/11/04/%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86DHCP%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="配置与管理DHCP服务器">配置与管理DHCP服务器</a><time datetime="2025-11-04T10:48:07.000Z" title="发表于 2025-11-04 18:48:07">2025-11-04</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="workboard"><img class="workSituationImg boardsign" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.103028.xyz/blog/槿鸢-上课摸鱼中-brightgreen.svg" alt="大佬带带~" title="大佬带带~"><div id="runtimeTextTip"></div></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo喵~" title="博客框架为Hexo喵~"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Frame-Hexo.svg" alt="博客框架为Hexo喵~"></a><a class="github-badge" target="_blank" href="https://blog.anheyu.com/" style="margin-inline:5px" data-title="本站使用AnZhiYu主题" title="本站使用AnZhiYu主题"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.9/img/Theme-AnZhiYu-2E67D3.svg" alt="本站使用AnZhiYu主题"></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title="本站项目由Github托管"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Source-Github.svg" alt="本站项目由Github托管"></a></p></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><!-- 将版权与备案号放在同一行，避免纵向堆叠--><div id="footer-bar-tips" style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap"><div class="copyright">©2024 - 2025 By <a class="footer-bar-link" href="/" title="槿鸢" target="_blank">槿鸢</a></div><a class="footer-bar-link footer-icp" href="https://icp.gov.moe/?keyword=20255004" target="_blank">萌 ICP 备 20255004 号</a></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">3</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="https://azzlantern.github.io" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://103028.xyz" title="URL短链接"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/URL.png" alt="URL短链接"><span class="back-menu-item-text">URL短链接</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=2803167371&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Apache/" style="font-size: 0.88rem;">Apache<sup>1</sup></a><a href="/tags/ArchLinux/" style="font-size: 0.88rem;">ArchLinux<sup>1</sup></a><a href="/tags/DHCP/" style="font-size: 0.88rem;">DHCP<sup>1</sup></a><a href="/tags/DNS/" style="font-size: 0.88rem;">DNS<sup>1</sup></a><a href="/tags/FTP/" style="font-size: 0.88rem;">FTP<sup>1</sup></a><a href="/tags/Samba/" style="font-size: 0.88rem;">Samba<sup>1</sup></a><a href="/tags/%E6%80%9D%E7%A7%91/" style="font-size: 0.88rem;">思科<sup>1</sup></a><a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 0.88rem;">日常<sup>1</sup></a><a href="/tags/%E9%9F%B3%E4%B9%90/" style="font-size: 0.88rem;">音乐<sup>1</sup></a></div></div><hr></div></div><div id="keyboard-tips"><div class="keyboardTitle">博客快捷键</div><div class="keybordList"><div class="keybordItem"><div class="keyGroup"><div class="key">shift K</div></div><div class="keyContent"><div class="content">关闭快捷键功能</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift A</div></div><div class="keyContent"><div class="content">打开/关闭中控台</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift M</div></div><div class="keyContent"><div class="content">播放/暂停音乐</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift D</div></div><div class="keyContent"><div class="content">深色/浅色显示模式</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift S</div></div><div class="keyContent"><div class="content">站内搜索</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift R</div></div><div class="keyContent"><div class="content">随机访问</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift H</div></div><div class="keyContent"><div class="content">返回首页</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift F</div></div><div class="keyContent"><div class="content">友链鱼塘</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift L</div></div><div class="keyContent"><div class="content">友链页面</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift P</div></div><div class="keyContent"><div class="content">关于本站</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift I</div></div><div class="keyContent"><div class="content">原版/本站右键菜单</div></div></div></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="2803167371" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://music.163.com/#/playlist?id=2803167371&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async="" src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("07/04/2024 23:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2024 By 安知鱼 V1.6.14",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 槿鸢 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async="" src="/anzhiyu/random.js"></script><script async="async">(function () {
+  var grt = new Date("07/04/2024 23:00:00"); //设置网站上线时间
+  var now = new Date();
+  var dnum;
+  var hnum;
+  var mnum;
+  var snum;
+  var nowHour;
+
+  // 计算并更新天数、小时数、分钟数和秒数
+  function updateTime() {
+    now = new Date(); // 更新 now 的值
+    nowHour = now.getHours(); // 更新 nowHour 的值
+    var days = (now - grt) / 1000 / 60 / 60 / 24;
+    dnum = Math.floor(days);
+    var hours = (now - grt) / 1000 / 60 / 60 - 24 * dnum;
+    hnum = Math.floor(hours);
+    if (String(hnum).length == 1) {
+      hnum = "0" + hnum;
+    }
+    var minutes = (now - grt) / 1000 / 60 - 24 * 60 * dnum - 60 * hnum;
+    mnum = Math.floor(minutes);
+    if (String(mnum).length == 1) {
+      mnum = "0" + mnum;
+    }
+    var seconds = (now - grt) / 1000 - 24 * 60 * 60 * dnum - 60 * 60 * hnum - 60 * mnum;
+    snum = Math.round(seconds);
+    if (String(snum).length == 1) {
+      snum = "0" + snum;
+    }
+  }
+
+  // 更新网页中显示的网站运行时间
+  function updateHtml() {
+    const footer = document.getElementById("footer");
+    if (!footer) return
+    let currentTimeHtml = "";
+    if (nowHour < 18 && nowHour >= 9) {
+      // 如果是上班时间，默认就是"安知鱼-上班摸鱼中.svg"图片，不需要更改
+      currentTimeHtml = `本站居然运行了 ${dnum} 天<span id='runtime'> ${hnum} 小时 ${mnum} 分 ${snum} 秒 </span><i class='anzhiyufont anzhiyu-icon-heartbeat' style='color:red'></i>`;
+    } else {
+      // 如果是下班时间，插入"安知鱼-下班啦.svg"图片
+      let img = document.querySelector("#workboard .workSituationImg");
+      if (img != null) {
+        img.src = "https://img.103028.xyz/blog/槿鸢-摸鱼中-brightgreen.svg";
+        img.title = "没事了就该开开心心的摸鱼，哼哼~";
+        img.alt = "没事了就该开开心心的摸鱼，哼哼~";
+      }
+
+      currentTimeHtml = `本站居然运行了 ${dnum} 天<span id='runtime'> ${hnum} 小时 ${mnum} 分 ${snum} 秒 </span><i class='anzhiyufont anzhiyu-icon-heartbeat' style='color:red'></i>`;
+    }
+
+    if (document.getElementById("runtimeTextTip")) {
+      document.getElementById("runtimeTextTip").innerHTML = currentTimeHtml;
+    }
+  }
+
+  setInterval(() => {
+    updateTime();
+    updateHtml();
+  }, 1000);
+})();</script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.ipox.cn/',
+      region: 'mianyang',
+      onCommentLoaded: () => {
+        anzhiyu.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(runFn,0)
+    else getScript('/js/twikoo.all.min.js').then(runFn)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.ipox.cn/',
+      region: 'mianyang',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const runFn = () => {
+    init();
+    
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) anzhiyu.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script><input type="hidden" name="page-type" id="page-type" value="post"></div><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getComment = () => {
+    const runTwikoo = () => {
+      twikoo.getRecentComments({
+        envId: 'https://twikoo.ipox.cn/',
+        region: 'mianyang',
+        pageSize: 6,
+        includeReply: true
+      }).then(function (res) {
+        const twikooArray = res.map(e => {
+          return {
+            'content': changeContent(e.comment),
+            'avatar': e.avatar,
+            'nick': e.nick,
+            'url': e.url + '#' + e.id,
+            'date': new Date(e.created).toISOString()
+          }
+        })
+
+        saveToLocal.set('twikoo-newest-comments', JSON.stringify(twikooArray), 10/(60*24))
+        generateHtml(twikooArray)
+      }).catch(function (err) {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "无法获取评论，请确认相关配置是否正确"
+      })
+    }
+
+    if (typeof twikoo === 'object') {
+      runTwikoo()
+    } else {
+      getScript('/js/twikoo.all.min.js').then(runTwikoo)
+    }
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'><div class='name'><span>${array[i].nick} </span></div></a>`
+        }
+        
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <time datetime="${array[i].date}">${anzhiyu.diffDate(array[i].date, true)}</time></div>
+        </div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom && ($dom.innerHTML= result)
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('twikoo-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script>var visitorMail = "";
+</script><script async="" data-pjax="" src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script src="/js/music-index.js"></script><script src="/js/customschedule.js"></script><script src="/js/customchineselunar.js"></script><script src="/js/customutils.js"></script><script src="/js/ipwelcomecontrol.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:type\"]","meta[property=\"og:site_name\"]","meta[property=\"og:description\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div>
+    <link rel="stylesheet" href="https://ai.tianli0.top/static/public/postChatUser_summary.min.css">
+    <script>
+        let tianliGPT_key = 'RBQQPsO0VYv';
+        let tianliGPT_postSelector = '#postchat_postcontent';
+        let tianliGPT_Title = '文章摘要';
+        let tianliGPT_postURL = '/^https?://[^/]+/[0-9]{4}/[0-9]{2}/[0-9]{2}/';
+        let tianliGPT_blacklist = '';
+        let tianliGPT_wordLimit = '1000';
+        let tianliGPT_typingAnimate = true;
+        let tianliGPT_theme = 'default';
+        var postChatConfig = {
+          backgroundColor: "#3e86f6",
+          bottom: "16px",
+          left: "16px",
+          fill: "#FFFFFF",
+          width: "44px",
+          frameWidth: "375px",
+          frameHeight: "600px",
+          defaultInput: true,
+          upLoadWeb: true,
+          showInviteLink: true,
+          userTitle: "PostChat",
+          userDesc: "如果你对网站的内容有任何疑问，可以来问我哦～",
+          addButton: true,
+          beginningText: "这篇文章介绍了",
+          userIcon: "https://ai.tianli0.top/static/img/PostChat.webp",
+          userMode: "magic",
+          defaultChatQuestions: ["你好","你是谁"],
+          defaultSearchQuestions: ["视频压缩","设计"]
+        };
+    </script>
+    <script data-postchat_key="RBQQPsO0VYv" src="https://ai.tianli0.top/static/public/tianli_gpt.min.js"></script>
+  </body></html>
